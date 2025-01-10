@@ -42,9 +42,6 @@ export default function LadderPage() {
               <RotateCcw className="w-4 h-4" />
               Try Again
             </button>
-            <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors">
-              Next Problem
-            </button>
           </div>
         </div>
       </div>
@@ -64,8 +61,8 @@ export default function LadderPage() {
             <ambientLight intensity={1} />
             <directionalLight position={[5, 5, 5]} intensity={4} />
             <OrbitControls
-              maxAzimuthAngle={-Math.PI / 2}
-              minAzimuthAngle={Math.PI / 2}
+              maxAzimuthAngle={-Math.PI / 1.7}
+              minAzimuthAngle={Math.PI / 1.7}
               maxPolarAngle={Math.PI / 2}
               minPolarAngle={Math.PI / 6}
             />

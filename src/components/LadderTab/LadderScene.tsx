@@ -5,6 +5,10 @@ type GLTFResult = {
     Plane001: THREE.Mesh;
     Plane: THREE.Mesh;
     Ladders018: THREE.Mesh;
+    gs_forest_seedlings_01: THREE.Mesh;
+    gs_forest_seedlings_01_1: THREE.Mesh;
+    gs_dryland_meadow_flower_01: THREE.Mesh;
+    gs_dryland_meadow_flower_01_1: THREE.Mesh;
   };
   materials: {
     [key: string]: THREE.Material;
@@ -22,48 +26,75 @@ export default function LadderScene({
   ...props
 }: LadderSceneProps) {
   const { nodes, materials } = useGLTF(
-    "/models/LADDERnew.glb"
+    "/models/LADDER1.glb"
   ) as unknown as GLTFResult;
 
   return (
-    <group {...props} dispose={null}>
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Plane001.geometry}
-        material={materials["Material.001"]}
-        position={[0, 0, 4.514]}
-        rotation={[Math.PI / 2, 0, 0]}
-        scale={[0.243, 0.843, 1]}
-      />
+    <group {...props} scale={0.5} position-z={10} dispose={null}>
       <mesh
         castShadow
         receiveShadow
         geometry={nodes.Plane.geometry}
         material={materials["Material.002"]}
-        position={[0, 0, 4.849]}
-        scale={[6.768, 24.752, 20.854]}
+        scale={27.052}
+        position-z={-26.5}
       />
       <mesh
         castShadow
         receiveShadow
         geometry={nodes.Ladders018.geometry}
         material={materials.lambert49SG}
-        position={[-0.11, 6.621, -1.013]}
+        position={[-0.11, 6.621, -5.527]}
         rotation={[2.244, 0, -Math.PI / 2]}
         scale={0.051}
       />
+      <group position={[16.616, 0.775, -4]} rotation={[-0.062, 0, -0.004]}>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.gs_forest_seedlings_01.geometry}
+          material={materials[".gs_seedling_01_stem"]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.gs_forest_seedlings_01_1.geometry}
+          material={materials[".gs_seedling_01"]}
+        />
+      </group>
+      <group position={[11.848, 0.485, -7.18]} rotation={[-0.009, 0, 0.02]}>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.gs_dryland_meadow_flower_01.geometry}
+          material={materials[".gs_grass__dryland"]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.gs_dryland_meadow_flower_01_1.geometry}
+          material={materials[".gs_grass_flower"]}
+        />
+      </group>
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Plane001.geometry}
+        material={materials["Material.003"]}
+        rotation={[Math.PI / 2, 0, 0]}
+        position-y={15}
+      />
 
       {/* Dynamic text on the ground */}
-      <Billboard position-x={12}>
-        <Text fontSize={1} color="white">
+      <Billboard position-x={20} position-y={2} position-z={-10}>
+        <Text fontSize={2} color="white">
           Base Distance: {baseDistance}m
         </Text>
       </Billboard>
 
       {/* Dynamic text on the wall */}
-      <Billboard position-y={12} position-z={17}>
-        <Text fontSize={1} color="white">
+      <Billboard position-y={12} position-x={20} position-z={-10}>
+        <Text fontSize={2} color="white">
           Wall Height: {wallHeight}m
         </Text>
       </Billboard>
@@ -71,4 +102,4 @@ export default function LadderScene({
   );
 }
 
-useGLTF.preload("/models/LADDERnew.glb");
+useGLTF.preload("/models/LADDER1.glb");
