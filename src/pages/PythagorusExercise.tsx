@@ -273,12 +273,12 @@ export default function PythagorasExercise() {
         {/* Hidden Audio Elements */}
         <audio
           ref={correctAudioRef}
-          src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3"
+          src="./audio/correct.mp3"
           className="hidden"
         />
         <audio
           ref={wrongAudioRef}
-          src="https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3"
+          src="./audio/incorrect.mp3"
           className="hidden"
         />
       </div>

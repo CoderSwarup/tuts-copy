@@ -19,7 +19,7 @@ function Scene({ sideA, sideB }: SceneProps) {
   };
   const cubeAMaterial = createCubeMaterial("#3b82f6");
   const cubeBMaterial = createCubeMaterial("#10b981");
-  const cubeCMaterial = createCubeMaterial("#ff7114");
+  const cubeCMaterial = createCubeMaterial("#eb77ff");
   const lineMaterial = new THREE.LineBasicMaterial({
     color: "#ffffff",
     linewidth: 10,
@@ -81,9 +81,9 @@ function Scene({ sideA, sideB }: SceneProps) {
       />
     );
   };
-  const cubeAGeometry = new THREE.BoxGeometry(sideA, sideA, 1.5);
-  const cubeBGeometry = new THREE.BoxGeometry(sideB, sideB, 1.5);
-  const cubeCGeometry = new THREE.BoxGeometry(sideLength, sideLength, 1.5);
+  const cubeAGeometry = new THREE.BoxGeometry(sideA, sideA, 0);
+  const cubeBGeometry = new THREE.BoxGeometry(sideB, sideB, 0);
+  const cubeCGeometry = new THREE.BoxGeometry(sideLength, sideLength, 0);
   const cubeAEdge = createHighlightedEdge(cubeAGeometry, [7, 10]);
   const cubeBEdge = createHighlightedEdge(cubeBGeometry, [8, 10]);
   const cubeCEdge = createHighlightedEdge(cubeCGeometry, [7, 12]);
@@ -113,18 +113,36 @@ function Scene({ sideA, sideB }: SceneProps) {
       {/* <gridHelper args={[20, 20, "#444", "#666"]} /> */}{" "}
       {createTriangleFill()}{" "}
       <mesh
-        position={[-sideA / 2, sideA / 2, 0]}
+        position={[-sideA / 2, sideA / 2, 0.7]}
         geometry={cubeAGeometry}
         material={cubeAMaterial}
       >
-        <Html position={[0, 0, 1]} center>
+        {/* Text for A at the edge */}
+        <Html position={[sideA * 0.4, 0, 0]} center>
           <div
-            style={{ color: "#ffffff", fontSize: "2rem", fontWeight: "bold" }}
+            style={{
+              color: "#ffffff",
+              fontSize: `${Math.max(9, sideA / 10)}px`, // Responsive font size
+              fontWeight: "bold",
+            }}
           >
             A
           </div>
         </Html>
-      </mesh>{" "}
+        {/* Area text */}
+        <Html position={[0, 0.5, 0]} center>
+          <div
+            style={{
+              color: "#ffffff",
+              fontSize: `${Math.max(6, sideA / 1)}px`,
+              textAlign: "center",
+              width: "400px",
+            }}
+          >
+            Area A = {(sideA ** 2).toFixed(2)}
+          </div>
+        </Html>
+      </mesh>
       <lineSegments
         position={[-sideA / 2, sideA / 2, 0]}
         geometry={cubeAEdge}
@@ -136,15 +154,33 @@ function Scene({ sideA, sideB }: SceneProps) {
         0.05
       )}{" "}
       <mesh
-        position={[sideB / 2, -sideB / 2, 0]}
+        position={[sideB / 2, -sideB / 2, 0.7]}
         geometry={cubeBGeometry}
         material={cubeBMaterial}
       >
-        <Html position={[0, 0, 1]} center>
+        {/* Text for B at the edge */}
+        <Html position={[0, sideB * 0.45, 1]} center>
           <div
-            style={{ color: "#ffffff", fontSize: "2rem", fontWeight: "bold" }}
+            style={{
+              color: "#ffffff",
+              fontSize: `${Math.max(9, sideB / 10)}px`, // Responsive font size
+              fontWeight: "bold",
+            }}
           >
             B
+          </div>
+        </Html>
+        {/* Area text */}
+        <Html position={[0, 0, 1]} center>
+          <div
+            style={{
+              color: "#ffffff",
+              fontSize: "10px",
+              textAlign: "center",
+              width: "400px",
+            }}
+          >
+            Area B = {(sideB ** 2).toFixed(2)}
           </div>
         </Html>
       </mesh>
@@ -161,15 +197,31 @@ function Scene({ sideA, sideB }: SceneProps) {
       <group position={[0, sideA, 0]} rotation={[0, 0, -angle]}>
         {" "}
         <mesh
-          position={[sideLength / 2, sideLength / 2, 0]}
+          position={[sideLength / 2, sideLength / 2, 0.7]}
           geometry={cubeCGeometry}
           material={cubeCMaterial}
         >
-          <Html position={[0, 0, 1]} center>
+          <Html position={[0, -(sideLength * 0.45), 1]} center>
             <div
-              style={{ color: "#ffffff", fontSize: "2rem", fontWeight: "bold" }}
+              style={{
+                color: "#ffffff",
+                fontSize: `${Math.max(9, sideLength / 10)}px`, // Responsive font size
+                fontWeight: "bold",
+              }}
             >
               C
+            </div>
+          </Html>
+          <Html position={[0, 0, 1]} center>
+            <div
+              style={{
+                color: "#ffffff",
+                fontSize: `10px`,
+                textAlign: "center",
+                width: "400px",
+              }}
+            >
+              Area C = {(hypotenuse ** 2).toFixed(2)}
             </div>
           </Html>
         </mesh>

@@ -156,6 +156,8 @@ function ActivityTab() {
           </button>
         </div>
       </div>
+
+      <audio src="./audio/activity.mp3" className="hidden" autoPlay />
     </div>
   );
 }

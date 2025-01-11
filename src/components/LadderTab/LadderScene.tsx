@@ -44,9 +44,10 @@ export default function LadderScene({
         receiveShadow
         geometry={nodes.Ladders018.geometry}
         material={materials.lambert49SG}
-        position={[-0.11, 6.621, -5.527]}
-        rotation={[2.244, 0, -Math.PI / 2]}
-        scale={0.051}
+        position={[-0.11, 10.621, -baseDistance]}
+        // rotation={[2.244, 0, -Math.PI / 2]}
+        rotation={[1.4 + (baseDistance * 10 * Math.PI) / 180, 0, -Math.PI / 2]}
+        scale={0.071}
       />
       <group position={[16.616, 0.775, -4]} rotation={[-0.062, 0, -0.004]}>
         <mesh

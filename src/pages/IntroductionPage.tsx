@@ -7,7 +7,29 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
-
+const slides = [
+  {
+    title: "PYTHAGORAS THEOREM",
+    content:
+      "Welcome to the simulation on Pythagoras Theorem! Click the Introduction tab to learn about the Pythagoras theorem.",
+    audioUrl: "./audio/Audio1.mp3",
+  },
+  {
+    title: "PYTHAGORAS THEOREM",
+    content:
+      "In a right-angled triangle, the square of the hypotenuse is equal to the sum of the squares of the other two sides.",
+    formula: "In mathematical terms: a² + b² = c² ",
+    audioUrl: "./audio/Audio2.mp3",
+  },
+  {
+    title: "PYTHAGORAS THEOREM",
+    content:
+      "Hover over each side to learn more about the relationship between the sides of a right-angled triangle.",
+    formula:
+      "Where: c is the hypotenuse, a is the perpendicular, and b is the base",
+    audioUrl: "./audio/Audio3.mp3",
+  },
+];
 export default function IntroductionPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -15,30 +37,7 @@ export default function IntroductionPage() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
-
-  const slides = [
-    {
-      title: "PYTHAGORAS THEOREM",
-      content:
-        "Welcome to the simulation on Pythagoras Theorem! Click the Introduction tab to learn about the Pythagoras theorem.",
-      audioUrl: "./audio/Audio1.mp3",
-    },
-    {
-      title: "PYTHAGORAS THEOREM",
-      content:
-        "In a right-angled triangle, the square of the hypotenuse is equal to the sum of the squares of the other two sides.",
-      formula: "In mathematical terms: a² + b² = c² ",
-      audioUrl: "./audio/Audio2.mp3",
-    },
-    {
-      title: "PYTHAGORAS THEOREM",
-      content:
-        "Hover over each side to learn more about the relationship between the sides of a right-angled triangle.",
-      formula:
-        "Where: c is the hypotenuse, a is the perpendicular, and b is the base",
-      audioUrl: "./audio/Audio3.mp3",
-    },
-  ];
+  const [hoveredSide, setHoveredSide] = useState("");
 
   const togglePlay = () => {
     if (audioRef.current) {
@@ -48,6 +47,13 @@ export default function IntroductionPage() {
         audioRef.current.play();
       }
       setIsPlaying(!isPlaying);
+    }
+  };
+
+  const startPlaying = () => {
+    if (audioRef.current) {
+      audioRef.current.play();
+      setIsPlaying(true);
     }
   };
 
@@ -102,7 +108,9 @@ export default function IntroductionPage() {
       }
     };
   }, []);
-
+  useEffect(() => {
+    startPlaying();
+  }, [currentSlide]);
   return (
     <div className="min-h-screen overflow-hidden bg-gray-900 flex ">
       {/* Main Content - Left Side */}
@@ -152,6 +160,32 @@ export default function IntroductionPage() {
                 className="opacity-90"
               />
 
+              {/* Hoverable Areas for Sides */}
+              <path
+                d="M30 430 L430 430"
+                fill="none"
+                stroke="transparent"
+                strokeWidth="30"
+                onMouseEnter={() => setHoveredSide("b")}
+                onMouseLeave={() => setHoveredSide("")}
+              />
+              <path
+                d="M430 430 L430 30"
+                fill="none"
+                stroke="transparent"
+                strokeWidth="30"
+                onMouseEnter={() => setHoveredSide("a")}
+                onMouseLeave={() => setHoveredSide("")}
+              />
+              <path
+                d="M30 430 L430 30"
+                fill="none"
+                stroke="transparent"
+                strokeWidth="30"
+                onMouseEnter={() => setHoveredSide("c")}
+                onMouseLeave={() => setHoveredSide("")}
+              />
+
               {/* Right Angle Marker */}
               <path
                 d="M380 430 L380 380 L430 380"
@@ -161,32 +195,47 @@ export default function IntroductionPage() {
                 className="animate-draw"
               />
 
+              {/* Labels with Hover Interaction */}
               {currentSlide >= 1 && (
                 <>
-                  {/* Animated Labels */}
                   <text
                     x="230"
                     y="450"
                     textAnchor="middle"
-                    className="text-xl font-bold fill-white animate-fade-in"
+                    dominantBaseline="middle"
+                    fontSize="16"
+                    fill="white"
+                    className="animate-fade-in cursor-pointer"
+                    onMouseEnter={() => setHoveredSide("b")}
+                    onMouseLeave={() => setHoveredSide("")}
                   >
-                    b
+                    {hoveredSide === "b" ? "b = √(c² - a²)" : "b"}
                   </text>
                   <text
-                    x="445"
-                    y="230"
-                    textAnchor="start"
-                    className="text-xl font-bold fill-white animate-fade-in"
+                    x="450"
+                    y="220"
+                    textAnchor="end"
+                    dominantBaseline="middle"
+                    fontSize="16"
+                    fill="white"
+                    className="animate-fade-in cursor-pointer"
+                    onMouseEnter={() => setHoveredSide("a")}
+                    onMouseLeave={() => setHoveredSide("")}
                   >
-                    a
+                    {hoveredSide === "a" ? "a = √(c² - b²)" : "a"}
                   </text>
                   <text
-                    x="230"
-                    y="200"
+                    x="250"
+                    y="170"
                     textAnchor="middle"
-                    className="text-xl font-bold fill-white animate-fade-in"
+                    dominantBaseline="middle"
+                    fontSize="16"
+                    fill="white"
+                    className="animate-fade-in cursor-pointer"
+                    onMouseEnter={() => setHoveredSide("c")}
+                    onMouseLeave={() => setHoveredSide("")}
                   >
-                    c
+                    {hoveredSide === "c" ? "c = √(a² + b²)" : "c"}
                   </text>
                 </>
               )}
@@ -202,7 +251,14 @@ export default function IntroductionPage() {
               />
 
               {/* 90° Label */}
-              <text x="400" y="415" className="text-xl fill-white ">
+              <text
+                x="400"
+                y="415"
+                textAnchor="start"
+                dominantBaseline="middle"
+                fontSize="16"
+                fill="white"
+              >
                 90°
               </text>
             </svg>

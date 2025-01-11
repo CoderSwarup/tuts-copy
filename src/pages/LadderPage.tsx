@@ -1,5 +1,5 @@
 import { Info, RotateCcw, CheckCircle2, AlertCircle } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import LadderScene from "../components/LadderTab/LadderScene";
 import { OrbitControls } from "@react-three/drei";
@@ -7,15 +7,19 @@ export default function LadderPage() {
   const [sliderValue, setSliderValue] = useState(2);
   const [submit, setSubmit] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const correctAudioRef = useRef<HTMLAudioElement>(null);
+  const wrongAudioRef = useRef<HTMLAudioElement>(null);
 
   const handleSubmit = () => {
     if (sliderValue === 3) {
+      correctAudioRef.current?.play();
       setSubmit(true);
       setErrorMessage("");
     } else {
       setErrorMessage(
         "Not quite right. Remember, the square of the hypotenuse equals the sum of the squares of the other two sides!"
       );
+      wrongAudioRef.current?.play();
     }
   };
 
@@ -44,6 +48,12 @@ export default function LadderPage() {
             </button>
           </div>
         </div>
+        <audio
+          ref={correctAudioRef}
+          src="./audio/correct.mp3"
+          autoPlay
+          className="hidden"
+        />
       </div>
     );
   }
@@ -59,7 +69,7 @@ export default function LadderPage() {
 
           <Canvas camera={{ position: [70, 20, -50], fov: 20 }}>
             <ambientLight intensity={1} />
-            <directionalLight position={[5, 5, 5]} intensity={4} />
+            <directionalLight position={[5, 5, 5]} intensity={5} />
             <OrbitControls
               maxAzimuthAngle={-Math.PI / 1.7}
               minAzimuthAngle={Math.PI / 1.7}
@@ -91,25 +101,49 @@ export default function LadderPage() {
           </div>
         </div>
 
-        {/* Interactive Controls */}
-        <div className="bg-gray-700/50 rounded-xl p-6 mb-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-white">
-              Adjust Distance
-            </h2>
-            <span className="text-blue-400 font-mono font-bold">
-              {sliderValue}m
-            </span>
+        {/* Error message */}
+        {errorMessage && (
+          <div className="mt-4 mb-6 flex items-start gap-3 p-4 bg-red-500/10 rounded-lg border border-red-500/20">
+            <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+            <p className="text-red-300 text-sm">{errorMessage}</p>
           </div>
+        )}
 
-          <input
-            type="range"
-            min={1}
-            max={5}
-            step={0.1}
-            value={sliderValue}
-            onChange={(e) => setSliderValue(parseFloat(e.target.value))}
-            className="w-full h-2 bg-blue-500/30 rounded-lg appearance-none cursor-pointer
+        {/* Instructions */}
+        <div className="mt-auto flex items-start gap-3 text-sm">
+          <Info className="w-5 h-5 text-indigo-400 flex-shrink-0 mt-0.5" />
+          <p className="text-gray-400">
+            Drag the slider to adjust the base distance. Use the 3D view to
+            visualize the ladder placement.
+          </p>
+        </div>
+
+        <audio
+          ref={wrongAudioRef}
+          src="./audio/LadderInCorrect.mp3"
+          className="hidden"
+        />
+        <audio src="./audio/ladderQuestion.mp3" className="hidden" autoPlay />
+      </div>
+      {/* Interactive Controls */}
+      <div className="fixed  bottom-4 left-[40%]  -translate-x-[50%] bg-gray-900 h-[150px] p-3">
+        <div className="flex justify-between items-center mb-1">
+          <h2 className="text-sm font-semibold text-white">
+            What Should be the base Distance
+          </h2>
+          <span className="text-blue-400 font-mono font-bold">
+            {sliderValue}m
+          </span>
+        </div>
+
+        <input
+          type="range"
+          min={1}
+          max={5}
+          step={0.1}
+          value={sliderValue}
+          onChange={(e) => setSliderValue(parseFloat(e.target.value))}
+          className="w-full h-2 bg-blue-500/30 rounded-lg appearance-none cursor-pointer
                 [&::-webkit-slider-thumb]:appearance-none
                 [&::-webkit-slider-thumb]:w-4
                 [&::-webkit-slider-thumb]:h-4
@@ -118,31 +152,14 @@ export default function LadderPage() {
                 [&::-webkit-slider-thumb]:cursor-pointer
                 [&::-webkit-slider-thumb]:transition-all
                 [&::-webkit-slider-thumb]:hover:scale-110"
-          />
+        />
 
-          <button
-            onClick={handleSubmit}
-            className="w-full mt-6 bg-blue-600 text-white py-3 px-8 rounded-lg hover:bg-blue-500 transition-all duration-200 font-semibold"
-          >
-            Check Answer
-          </button>
-
-          {errorMessage && (
-            <div className="mt-4 flex items-start gap-3 p-4 bg-red-500/10 rounded-lg border border-red-500/20">
-              <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-              <p className="text-red-300 text-sm">{errorMessage}</p>
-            </div>
-          )}
-        </div>
-
-        {/* Instructions */}
-        <div className="mt-4 flex items-start gap-3 text-sm">
-          <Info className="w-5 h-5 text-indigo-400 flex-shrink-0 mt-0.5" />
-          <p className="text-gray-400">
-            Drag the slider to adjust the base distance. Use the 3D view to
-            visualize the ladder placement.
-          </p>
-        </div>
+        <button
+          onClick={handleSubmit}
+          className="w-full mt-4 bg-blue-600 text-white py-3 px-8 rounded-lg hover:bg-blue-500 transition-all duration-200 font-semibold"
+        >
+          Check Answer
+        </button>
       </div>
     </div>
   );
