@@ -73,7 +73,7 @@ export default function LadderPage() {
             <OrbitControls
               maxAzimuthAngle={-Math.PI / 1.7}
               minAzimuthAngle={Math.PI / 1.7}
-              maxPolarAngle={Math.PI / 2}
+              maxPolarAngle={Math.PI / 2.4}
               minPolarAngle={Math.PI / 6}
             />
             <LadderScene baseDistance={sliderValue} wallHeight={4} />

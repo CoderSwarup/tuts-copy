@@ -145,7 +145,7 @@ export default function PythagorasExercise() {
               {/* Measurements */}
               <text
                 x="200"
-                y="320"
+                y="330"
                 textAnchor="middle"
                 className="text-xl fill-white"
               >
@@ -168,8 +168,36 @@ export default function PythagorasExercise() {
                 {questions[currentQuestionIndex].sides[2] ?? "?"}
               </text>
 
+              {/* Glow or Blink Effect for Unknown Side */}
+              {questions[currentQuestionIndex].sides.map((side, index) => {
+                if (side === null) {
+                  const [x1, y1, x2, y2] =
+                    index === 0 // Unknown side a
+                      ? [100, 300, 300, 300]
+                      : index === 1 // Unknown side b
+                      ? [300, 300, 300, 100]
+                      : [300, 100, 100, 300]; // Unknown side c
+
+                  return (
+                    <line
+                      key={index}
+                      x1={x1}
+                      y1={y1}
+                      x2={x2}
+                      y2={y2}
+                      stroke="white"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeDasharray="10 5"
+                      className="animate-blink"
+                    />
+                  );
+                }
+                return null;
+              })}
+
               {/* 90° Label */}
-              <text x="275" y="275" className="text-sm fill-white">
+              <text x="275" y="280" className="text-sm fill-white">
                 90°
               </text>
             </svg>

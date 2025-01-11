@@ -12,7 +12,7 @@ function ActivityTab() {
   return (
     <div className="w-screen h-screen bg-gray-900 flex">
       <Canvas
-        camera={{ position: [10, 10, 10], fov: 50 }}
+        camera={{ position: [0, 0, 20], fov: 50 }}
         className="h-full w-full"
       >
         <Scene sideA={sideA} sideB={sideB} />

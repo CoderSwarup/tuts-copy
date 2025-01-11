@@ -1,5 +1,5 @@
 import { Html } from "@react-three/drei";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 interface SceneProps {
   sideA: number;
@@ -7,9 +7,25 @@ interface SceneProps {
 }
 function Scene({ sideA, sideB }: SceneProps) {
   const groupRef = useRef<THREE.Group>(null);
+
+  const [textSizeA, setTextSizeA] = useState(9);
+  const [textSizeB, setTextSizeB] = useState(9);
+  const [textSizeC, setTextSizeC] = useState(9);
+
   const hypotenuse = Math.sqrt(sideA ** 2 + sideB ** 2);
   const angle = Math.atan2(sideA, sideB);
   const sideLength = hypotenuse;
+
+  useEffect(() => {
+    const adjustTextSize = () => {
+      setTextSizeA(sideA < 2 ? 5 : sideA * 3);
+      setTextSizeB(sideB < 2 ? 5 : sideB * 3);
+      setTextSizeC(sideLength < 2 ? 5 : sideLength * 3);
+    };
+
+    adjustTextSize();
+  }, [sideA, sideB, sideLength]);
+
   const createCubeMaterial = (baseColor: string) => {
     return new THREE.MeshStandardMaterial({
       color: baseColor,
@@ -117,29 +133,29 @@ function Scene({ sideA, sideB }: SceneProps) {
         geometry={cubeAGeometry}
         material={cubeAMaterial}
       >
-        {/* Text for A at the edge */}
-        <Html position={[sideA * 0.4, 0, 0]} center>
+        <Html position={[sideA * 0.4, 0, 0]} transform>
           <div
             style={{
               color: "#ffffff",
-              fontSize: `${Math.max(9, sideA / 10)}px`, // Responsive font size
+              fontSize: `${textSizeA}px`,
               fontWeight: "bold",
+              textAlign: "center",
             }}
           >
             A
           </div>
         </Html>
         {/* Area text */}
-        <Html position={[0, 0.5, 0]} center>
+        <Html position={[0, 0, 0]} transform>
           <div
             style={{
               color: "#ffffff",
-              fontSize: `${Math.max(6, sideA / 1)}px`,
+              fontSize: `${textSizeA}px`,
               textAlign: "center",
               width: "400px",
             }}
           >
-            Area A = {(sideA ** 2).toFixed(2)}
+            Area = {(sideA ** 2).toFixed(2)}
           </div>
         </Html>
       </mesh>
@@ -159,11 +175,11 @@ function Scene({ sideA, sideB }: SceneProps) {
         material={cubeBMaterial}
       >
         {/* Text for B at the edge */}
-        <Html position={[0, sideB * 0.45, 1]} center>
+        <Html position={[0, sideB * 0.37, 0]} transform>
           <div
             style={{
               color: "#ffffff",
-              fontSize: `${Math.max(9, sideB / 10)}px`, // Responsive font size
+              fontSize: `${textSizeB}px`, // Responsive font size
               fontWeight: "bold",
             }}
           >
@@ -171,16 +187,16 @@ function Scene({ sideA, sideB }: SceneProps) {
           </div>
         </Html>
         {/* Area text */}
-        <Html position={[0, 0, 1]} center>
+        <Html position={[0, 0, 0]} transform>
           <div
             style={{
               color: "#ffffff",
-              fontSize: "10px",
+              fontSize: `${textSizeB}px`,
               textAlign: "center",
               width: "400px",
             }}
           >
-            Area B = {(sideB ** 2).toFixed(2)}
+            Area = {(sideB ** 2).toFixed(2)}
           </div>
         </Html>
       </mesh>
@@ -201,27 +217,37 @@ function Scene({ sideA, sideB }: SceneProps) {
           geometry={cubeCGeometry}
           material={cubeCMaterial}
         >
-          <Html position={[0, -(sideLength * 0.45), 1]} center>
+          <Html
+            position={[0, -(sideLength * 0.4), 0]}
+            transform
+            rotation={new THREE.Euler(0, 0, angle)}
+          >
             <div
               style={{
                 color: "#ffffff",
-                fontSize: `${Math.max(9, sideLength / 10)}px`, // Responsive font size
+                fontSize: `${textSizeC}px`,
                 fontWeight: "bold",
+                transform: `rotate(${angle}deg)`,
               }}
             >
               C
             </div>
           </Html>
-          <Html position={[0, 0, 1]} center>
+          {/* Area text */}
+          <Html
+            position={[0, 0, 0]}
+            transform
+            rotation={new THREE.Euler(0, 0, angle)}
+          >
             <div
               style={{
                 color: "#ffffff",
-                fontSize: `10px`,
+                fontSize: `${textSizeC}px`,
                 textAlign: "center",
                 width: "400px",
               }}
             >
-              Area C = {(hypotenuse ** 2).toFixed(2)}
+              Area = {(hypotenuse ** 2).toFixed(2)}
             </div>
           </Html>
         </mesh>

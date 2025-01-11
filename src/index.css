@@ -57,3 +57,28 @@ body {
 .d-scrollbar::-webkit-scrollbar-thumb {
   background: #6366f1;
 }
+
+@keyframes animate-line {
+  0% {
+    stroke-dashoffset: 100%;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes animate-line {
+  0% {
+    stroke-dashoffset: 100%;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-line {
+  animation: animate-line 5s linear infinite;
+}
+.animate-line-reverse {
+  animation: animate-line 5s linear reverse infinite;
+}
