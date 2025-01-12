@@ -21,12 +21,12 @@ export default function Page() {
   const { selectedAudio } = useAudioContext();
 
   const slides = [
-    {
-      title: "Introduction ",
-      content:
-        "In this section, you will learn about right-angled triangles, their properties, and how to apply the Pythagoras Theorem to solve problems. A right-angled triangle has one angle equal to 90°, and the relationship between its sides is crucial for many geometric calculations.",
-      audioUrl: "./audio/introAudio.mp3",
-    },
+    // {
+    //   title: "Introduction ",
+    //   content:
+    //     "In this section, you will learn about right-angled triangles, their properties, and how to apply the Pythagoras Theorem to solve problems. A right-angled triangle has one angle equal to 90°, and the relationship between its sides is crucial for many geometric calculations.",
+    //   audioUrl: "./audio/introAudio.mp3",
+    // },
     {
       title: "Pythagoras Theorem",
       content:
@@ -209,7 +209,7 @@ export default function Page() {
               />
 
               {/* Labels with Hover Interaction */}
-              {currentSlide >= 1 && (
+              {currentSlide >= 0 && (
                 <>
                   <text
                     x="230"
@@ -222,7 +222,7 @@ export default function Page() {
                     onMouseEnter={() => setHoveredSide("b")}
                     onMouseLeave={() => setHoveredSide("")}
                   >
-                    {currentSlide >= 2 && hoveredSide === "b"
+                    {currentSlide >= 1 && hoveredSide === "b"
                       ? "b = √(c² - a²)"
                       : "b"}
                   </text>
@@ -237,7 +237,7 @@ export default function Page() {
                     onMouseEnter={() => setHoveredSide("a")}
                     onMouseLeave={() => setHoveredSide("")}
                   >
-                    {currentSlide >= 2 && hoveredSide === "a"
+                    {currentSlide >= 1 && hoveredSide === "a"
                       ? "a = √(c² - b²)"
                       : "a"}
                   </text>
@@ -252,12 +252,12 @@ export default function Page() {
                     onMouseEnter={() => setHoveredSide("c")}
                     onMouseLeave={() => setHoveredSide("")}
                   >
-                    {currentSlide >= 2 && hoveredSide === "c"
+                    {currentSlide >= 1 && hoveredSide === "c"
                       ? "c = √(a² + b²)"
                       : ""}
 
-                    {currentSlide == 2 && hoveredSide !== "c" && "c"}
-                    {currentSlide == 1 && "c = √(a² + b²)"}
+                    {currentSlide == 1 && hoveredSide !== "c" && "c"}
+                    {currentSlide == 0 && "c = √(a² + b²)"}
                   </text>
                 </>
               )}
@@ -274,7 +274,7 @@ export default function Page() {
 
               {/* ************************ */}
               {/* Audio Playing Animation */}
-              {currentSlide === 1 && isPlaying && (
+              {currentSlide === 0 && isPlaying && (
                 <line
                   key={0}
                   x1={30}
@@ -290,7 +290,7 @@ export default function Page() {
                 />
               )}
 
-              {currentSlide === 1 && isPlaying && (
+              {currentSlide === 0 && isPlaying && (
                 <line
                   key={1}
                   x1={430}
@@ -306,7 +306,7 @@ export default function Page() {
                 />
               )}
 
-              {currentSlide === 1 && isPlaying && (
+              {currentSlide === 0 && isPlaying && (
                 <line
                   key={2}
                   x1={30}
@@ -324,7 +324,7 @@ export default function Page() {
 
               {/* ************************ */}
               {/* hover Glow B */}
-              {currentSlide === 2 && hoveredSide === "b" && (
+              {currentSlide === 1 && hoveredSide === "b" && (
                 <line
                   key={0}
                   x1={30}
@@ -340,7 +340,7 @@ export default function Page() {
               )}
 
               {/* hover Glow a */}
-              {currentSlide === 2 && hoveredSide === "a" && (
+              {currentSlide === 1 && hoveredSide === "a" && (
                 <line
                   key={1}
                   x1={430}
@@ -356,7 +356,7 @@ export default function Page() {
               )}
 
               {/* hover Glow c */}
-              {currentSlide === 2 && hoveredSide === "c" && (
+              {currentSlide === 1 && hoveredSide === "c" && (
                 <line
                   key={2}
                   x1={30}
@@ -418,7 +418,7 @@ export default function Page() {
         </div>
 
         {/* Formula Display */}
-        {(currentSlide === 1 || currentSlide === 2) && (
+        {slides[currentSlide].formula && (
           <div className="bg-gray-700 rounded-xl h-[150px] max-h-[150px] p-3 shadow-lg overflow-y-scroll d-scrollbar ">
             <h3 className="text-indigo-400 font-semibold mb-3">Formula</h3>
             <p className="text-white text-lg font-light">
