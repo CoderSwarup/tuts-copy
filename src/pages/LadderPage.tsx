@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import LadderScene from "../components/LadderTab/LadderScene";
 import { OrbitControls } from "@react-three/drei";
+import LadderSceneNew from "../components/LadderTab/LadderSceneNew";
 export default function LadderPage() {
   const [sliderValue, setSliderValue] = useState(2);
   const [submit, setSubmit] = useState(false);
@@ -76,7 +77,8 @@ export default function LadderPage() {
               maxPolarAngle={Math.PI / 2.4}
               minPolarAngle={Math.PI / 6}
             />
-            <LadderScene baseDistance={sliderValue} wallHeight={4} />
+            {/* <LadderScene baseDistance={sliderValue} wallHeight={4} /> */}
+            <LadderSceneNew baseDistance={sliderValue} wallHeight={4} />
           </Canvas>
         </div>
       </div>
