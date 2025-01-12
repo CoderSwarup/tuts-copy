@@ -1,4 +1,27 @@
-import { slides } from "../../pages/IntroductionPage";
+import { useAudioContext } from "../../context/AudioContext";
+const slides = [
+  {
+    title: "Introduction ",
+    content:
+      "In this section, you will learn about right-angled triangles, their properties, and how to apply the Pythagoras Theorem to solve problems. A right-angled triangle has one angle equal to 90°, and the relationship between its sides is crucial for many geometric calculations.",
+    audioUrl: "./audio/introAudio.mp3",
+  },
+  {
+    title: "Pythagoras Theorem",
+    content:
+      "Pythagoras Theorem: In a right-angled triangle,the square of the hypotenuse is equal to the sum of the squares of the other two sides",
+    formula: "In mathematical terms: a² + b² = c² ",
+    audioUrl: "./audio/Audio2.mp3",
+  },
+  {
+    title: "Understanding the Triangle's Sides",
+    content:
+      "Hover over each side of the triangle to learn more about the relationship between the sides of a right-angled triangle.",
+    formula:
+      "Where: c is the hypotenuse, a is the perpendicular, and b is the base",
+    audioUrl: "./audio/Audio3.mp3",
+  },
+];
 
 export default function IntroTab({
   isIntroTab,
@@ -7,6 +30,7 @@ export default function IntroTab({
   isIntroTab: boolean;
   setIsIntroTab: (value: boolean) => void;
 }) {
+  const { selectedAudio } = useAudioContext();
   return (
     <div className="min-h-screen w-screen bg-gradient-to-br bg-gray-900 flex justify-center items-center p-6">
       <div className="bg-gray-800 p-8 rounded-2xl shadow-lg w-full max-w-lg text-center text-white space-y-8 relative overflow-hidden">
@@ -42,7 +66,11 @@ export default function IntroTab({
       </div>
 
       {/* Audio hidden component */}
-      <audio className="hidden" src="./audio/Audio1.mp3" autoPlay />
+      <audio
+        className="hidden"
+        src={`./audio/${selectedAudio}/1_Intro.mp3`}
+        autoPlay
+      />
     </div>
   );
 }

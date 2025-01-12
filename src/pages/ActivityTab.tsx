@@ -3,12 +3,13 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { Info, RotateCcw } from "lucide-react";
 import Scene from "../components/ActivityTab/Scene";
+import { useAudioContext } from "../context/AudioContext";
 
 function ActivityTab() {
   const [sideA, setSideA] = useState(3);
   const [sideB, setSideB] = useState(4);
   const hypotenuse = Math.sqrt(sideA * sideA + sideB * sideB);
-
+  const { selectedAudio } = useAudioContext();
   return (
     <div className="w-screen h-screen bg-gray-900 flex">
       <Canvas
@@ -157,7 +158,11 @@ function ActivityTab() {
         </div>
       </div>
 
-      <audio src="./audio/activity.mp3" className="hidden" autoPlay />
+      <audio
+        src={`./audio/${selectedAudio}/5_Activity.mp3`}
+        className="hidden"
+        autoPlay
+      />
     </div>
   );
 }

@@ -106,7 +106,7 @@ export default function LadderSceneNew({
         lineWidth={5}
         rotation={[0, Math.PI / 2, 0]}
         position={[0.7, -0.8, 0.2]}
-        scale={baseDistance * (baseDistance < 2 ? 0.2 : 0.06)}
+        scale={baseDistance * (baseDistance <= 2 ? 0.2 : 0.06)}
       />
       {/* Height Line */}
       <Line

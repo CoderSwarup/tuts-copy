@@ -7,7 +7,7 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
-import { slides } from "../../pages/IntroductionPage";
+import { useAudioContext } from "../../context/AudioContext";
 
 export default function Page() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -17,6 +17,32 @@ export default function Page() {
   const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [hoveredSide, setHoveredSide] = useState("");
+
+  const { selectedAudio } = useAudioContext();
+
+  const slides = [
+    {
+      title: "Introduction ",
+      content:
+        "In this section, you will learn about right-angled triangles, their properties, and how to apply the Pythagoras Theorem to solve problems. A right-angled triangle has one angle equal to 90°, and the relationship between its sides is crucial for many geometric calculations.",
+      audioUrl: "./audio/introAudio.mp3",
+    },
+    {
+      title: "Pythagoras Theorem",
+      content:
+        "Pythagoras Theorem: In a right-angled triangle,the square of the hypotenuse is equal to the sum of the squares of the other two sides",
+      formula: "In mathematical terms: a² + b² = c² ",
+      audioUrl: `./audio/${selectedAudio}/3_PythaDef.mp3`,
+    },
+    {
+      title: "Understanding the Triangle's Sides",
+      content:
+        "Hover over each side of the triangle to learn more about the relationship between the sides of a right-angled triangle.",
+      formula:
+        "Where: c is the hypotenuse, a is the perpendicular, and b is the base",
+      audioUrl: `./audio/${selectedAudio}/4_Hover_Side.mp3`,
+    },
+  ];
 
   const togglePlay = () => {
     if (audioRef.current) {
@@ -97,6 +123,7 @@ export default function Page() {
       setIsPlaying(false);
     }
   }, [currentTime, duration, currentSlide]);
+
   return (
     <div className="min-h-screen overflow-hidden bg-gray-900 flex ">
       {/* Main Content - Left Side */}
@@ -447,6 +474,35 @@ export default function Page() {
           </div>
         </div>
       </div>
+
+      {(() => {
+        switch (hoveredSide) {
+          case "a":
+            return (
+              <audio
+                src={`./audio/${selectedAudio}/6_LabelSide_A.mp3`}
+                className="hidden"
+                autoPlay
+              />
+            );
+          case "b":
+            return (
+              <audio
+                src={`./audio/${selectedAudio}/7_LabelSide_B.mp3`}
+                className="hidden"
+                autoPlay
+              />
+            );
+          case "c":
+            return (
+              <audio
+                src={`./audio/${selectedAudio}/8_LabelSide_C.mp3`}
+                className="hidden"
+                autoPlay
+              />
+            );
+        }
+      })()}
     </div>
   );
 }

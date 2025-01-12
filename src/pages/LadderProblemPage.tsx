@@ -1,17 +1,21 @@
 import { Info, RotateCcw, CheckCircle2, AlertCircle } from "lucide-react";
-import { useRef, useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
-import LadderSceneNew from "../components/LadderTab/LadderSceneNew";
-export default function LadderPage() {
+import { useEffect, useRef, useState } from "react";
+
+import { LadderProblemScene } from "../components/TEST/LadderProblemScene";
+import { useAudioContext } from "../context/AudioContext";
+export default function LadderProblemPage() {
   const [sliderValue, setSliderValue] = useState(2);
   const [submit, setSubmit] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const correctAudioRef = useRef<HTMLAudioElement>(null);
   const wrongAudioRef = useRef<HTMLAudioElement>(null);
+  const { selectedAudio } = useAudioContext();
+  const introAudio = useRef<HTMLAudioElement>(null);
 
   const handleSubmit = () => {
     if (sliderValue === 3) {
+      introAudio.current?.pause();
+      wrongAudioRef.current?.pause();
       correctAudioRef.current?.play();
       setSubmit(true);
       setErrorMessage("");
@@ -19,9 +23,15 @@ export default function LadderPage() {
       setErrorMessage(
         "Not quite right. Remember, the square of the hypotenuse equals the sum of the squares of the other two sides!"
       );
+      correctAudioRef.current?.pause();
+      introAudio.current?.pause();
       wrongAudioRef.current?.play();
     }
   };
+
+  useEffect(() => {
+    introAudio.current?.play();
+  }, []);
 
   if (submit) {
     return (
@@ -50,7 +60,7 @@ export default function LadderPage() {
         </div>
         <audio
           ref={correctAudioRef}
-          src="./audio/correct.mp3"
+          src={`./audio/${selectedAudio}/14_Ladder_Correct.mp3`}
           autoPlay
           className="hidden"
         />
@@ -67,18 +77,7 @@ export default function LadderPage() {
             Ladder Safety Problem
           </h1>
 
-          <Canvas camera={{ position: [70, 20, -50], fov: 20 }}>
-            <ambientLight intensity={1} />
-            <directionalLight position={[5, 5, 5]} intensity={5} />
-            <OrbitControls
-              maxAzimuthAngle={-Math.PI / 1.7}
-              minAzimuthAngle={Math.PI / 1.7}
-              maxPolarAngle={Math.PI / 2.4}
-              minPolarAngle={Math.PI / 6}
-            />
-            {/* <LadderScene baseDistance={sliderValue} wallHeight={4} /> */}
-            <LadderSceneNew baseDistance={sliderValue} wallHeight={4} />
-          </Canvas>
+          <LadderProblemScene baseDistance={sliderValue} wallHeight={4} />
         </div>
       </div>
 
@@ -121,10 +120,14 @@ export default function LadderPage() {
 
         <audio
           ref={wrongAudioRef}
-          src="./audio/LadderInCorrect.mp3"
+          src={`./audio/${selectedAudio}/13_Ladder_In_Correct.mp3`}
           className="hidden"
         />
-        <audio src="./audio/ladderQuestion.mp3" className="hidden" autoPlay />
+        <audio
+          ref={introAudio}
+          src={`./audio/${selectedAudio}/12_Ladder.mp3`}
+          className="hidden"
+        />
       </div>
       {/* Interactive Controls */}
       <div className="fixed  bottom-4 left-[40%]  -translate-x-[50%] bg-gray-900 h-[150px] p-3">

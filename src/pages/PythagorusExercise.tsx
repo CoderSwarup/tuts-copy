@@ -1,5 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Check, X, RotateCcw, ArrowRight } from "lucide-react";
+import { useAudioContext } from "../context/AudioContext";
 
 interface Question {
   sides: [number | null, number | null, number | null];
@@ -17,6 +18,8 @@ export default function PythagorasExercise() {
   const [showCongrats, setShowCongrats] = useState(false);
   const correctAudioRef = useRef<HTMLAudioElement>(null);
   const wrongAudioRef = useRef<HTMLAudioElement>(null);
+  const introAudio = useRef<HTMLAudioElement>(null);
+  const { selectedAudio } = useAudioContext();
 
   const questions: Question[] = [
     { sides: [6, 8, null], correctAnswer: 10 },
@@ -35,6 +38,8 @@ export default function PythagorasExercise() {
         isCorrect: true,
         message: "Excellent! That's correct! 🎉",
       });
+
+      introAudio.current?.pause();
       correctAudioRef.current?.play();
 
       const newCompleted = [...completedQuestions];
@@ -57,6 +62,7 @@ export default function PythagorasExercise() {
         isCorrect: false,
         message: "Not quite right. Try again using the Pythagorean Theorem.",
       });
+      introAudio.current?.pause();
       wrongAudioRef.current?.play();
     }
   };
@@ -68,6 +74,10 @@ export default function PythagorasExercise() {
     setCompletedQuestions([]);
     setShowCongrats(false);
   };
+
+  useEffect(() => {
+    introAudio.current?.play();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-900 flex">
@@ -301,12 +311,17 @@ export default function PythagorasExercise() {
         {/* Hidden Audio Elements */}
         <audio
           ref={correctAudioRef}
-          src="./audio/correct.mp3"
+          src={`./audio/${selectedAudio}/10_PracticeCorrect.mp3`}
           className="hidden"
         />
         <audio
           ref={wrongAudioRef}
-          src="./audio/incorrect.mp3"
+          src={`./audio/${selectedAudio}/11_PracticeInCorrect.mp3`}
+          className="hidden"
+        />
+        <audio
+          ref={introAudio}
+          src={`./audio/${selectedAudio}/9_Practice_Intro.mp3`}
           className="hidden"
         />
       </div>
