@@ -475,34 +475,35 @@ export default function Page() {
         </div>
       </div>
 
-      {(() => {
-        switch (hoveredSide) {
-          case "a":
-            return (
-              <audio
-                src={`./audio/${selectedAudio}/6_LabelSide_A.mp3`}
-                className="hidden"
-                autoPlay
-              />
-            );
-          case "b":
-            return (
-              <audio
-                src={`./audio/${selectedAudio}/7_LabelSide_B.mp3`}
-                className="hidden"
-                autoPlay
-              />
-            );
-          case "c":
-            return (
-              <audio
-                src={`./audio/${selectedAudio}/8_LabelSide_C.mp3`}
-                className="hidden"
-                autoPlay
-              />
-            );
-        }
-      })()}
+      {currentSlide === 1 &&
+        (() => {
+          switch (hoveredSide) {
+            case "a":
+              return (
+                <audio
+                  src={`./audio/${selectedAudio}/6_LabelSide_A.mp3`}
+                  className="hidden"
+                  autoPlay
+                />
+              );
+            case "b":
+              return (
+                <audio
+                  src={`./audio/${selectedAudio}/7_LabelSide_B.mp3`}
+                  className="hidden"
+                  autoPlay
+                />
+              );
+            case "c":
+              return (
+                <audio
+                  src={`./audio/${selectedAudio}/8_LabelSide_C.mp3`}
+                  className="hidden"
+                  autoPlay
+                />
+              );
+          }
+        })()}
     </div>
   );
 }
