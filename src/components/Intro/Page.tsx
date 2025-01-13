@@ -140,12 +140,12 @@ export default function Page() {
             {slides[currentSlide].title}
           </h1>
 
-          <div className="relative w-[500px] h-[500px] mx-auto transform hover:scale-105 transition-transform duration-500">
+          <div className="relative w-[500px] h-[500px]  transform hover:scale-102 transition-transform duration-500">
             <svg
-              width="460"
+              width="900"
               height="460"
               viewBox="0 0 460 460"
-              className="transform transition-all duration-700"
+              className="transform transition-all fixed "
             >
               <defs>
                 <linearGradient
@@ -217,10 +217,10 @@ export default function Page() {
                 <>
                   <text
                     x="230"
-                    y="450"
+                    y="452"
                     textAnchor="middle"
                     dominantBaseline="middle"
-                    fontSize="16"
+                    fontSize="25"
                     fill="white"
                     className="animate-fade-in cursor-pointer"
                     onMouseEnter={() => setHoveredSide("b")}
@@ -231,11 +231,13 @@ export default function Page() {
                       : "b"}
                   </text>
                   <text
-                    x="455"
+                    x={`${
+                      currentSlide >= 1 && hoveredSide === "a" ? "580" : "460"
+                    }`}
                     y="220"
                     textAnchor="end"
                     dominantBaseline="middle"
-                    fontSize="16"
+                    fontSize="25"
                     fill="white"
                     className="animate-fade-in cursor-pointer"
                     onMouseEnter={() => setHoveredSide("a")}
@@ -246,11 +248,16 @@ export default function Page() {
                       : "a"}
                   </text>
                   <text
-                    x="220"
+                    x={`${
+                      (currentSlide >= 1 && hoveredSide === "c") ||
+                      currentSlide === 0
+                        ? "155"
+                        : "210"
+                    }`}
                     y="200"
                     textAnchor="middle"
                     dominantBaseline="middle"
-                    fontSize="16"
+                    fontSize="25"
                     fill="white"
                     className={`animate-fade-in cursor-pointer bg-gray-900`}
                     onMouseEnter={() => setHoveredSide("c")}

@@ -13,8 +13,9 @@ export const AudioContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [selectedAudio] = useState("English"); // No need for setSelectedAudio anymore
 
   return (
-    <AudioContext.Provider value={{ selectedAudio, setSelectedAudio: () => {} }}>
-      <AudioSelector />
+    <AudioContext.Provider
+      value={{ selectedAudio, setSelectedAudio: () => {} }}
+    >
       {children}
     </AudioContext.Provider>
   );

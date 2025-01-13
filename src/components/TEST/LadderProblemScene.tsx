@@ -4,6 +4,7 @@ import {
   Line,
   OrbitControls,
   PerspectiveCamera,
+  RoundedBox,
   Text,
 } from "@react-three/drei";
 import { Ladder } from "./Ladder";
@@ -75,27 +76,36 @@ export const LadderProblemScene = ({
           <Ground />
 
           {/* Dynamic Text on the ground */}
-          <Billboard position-x={2.5} position-y={0.2} position-z={3.9}>
-            {/* Transparent blurred background for text */}
-            <mesh scale={0.8}>
-              <planeGeometry
-                args={[getTextWidth(`Base Distance: ${baseDistance}m`), 1]} // Dynamically adjust width to text
-              />
+
+          <Billboard position-x={2.5} position-y={-0.1} position-z={3.9}>
+            {/* Rounded Background */}
+            <RoundedBox
+              args={[getTextWidth(`Base Distance: ${baseDistance}m`), 1, 0.05]}
+              radius={0.2} // Corner radius
+              smoothness={4} // Smoothness of the corners
+              position={[0, 0, -0.01]} // Place behind the text slightly
+              scale={0.6}
+            >
               <meshStandardMaterial
                 transparent
-                opacity={0.5} // Add some transparency
-                roughness={0.7} // Make it rough to simulate blur
-                envMapIntensity={0.2} // Add subtle reflections for blur effect
+                opacity={0.5} // Transparent background
+                roughness={0.7}
+                envMapIntensity={0.2}
               />
-            </mesh>
-            <Text fontSize={0.4} color="black" fontWeight={600}>
+            </RoundedBox>
+
+            {/* Text */}
+            <Text
+              fontSize={0.3}
+              color="black"
+              fontWeight={600}
+              position={[0, 0, 0.02]}
+            >
               Base Distance: {baseDistance}m
             </Text>
           </Billboard>
-
           {/* Dynamic Text on the wall */}
-          <Billboard position-x={2.5} position-y={2.5} position-z={3.8}>
-            {/* Transparent blurred background for text */}
+          {/* <Billboard position-x={2.5} position-y={2.5} position-z={3.8}>
             <mesh scale={0.8}>
               <planeGeometry
                 args={[
@@ -103,21 +113,19 @@ export const LadderProblemScene = ({
                     `Ladder Height: ${Math.min(5, ladderLength).toFixed(2)}m`
                   ),
                   1,
-                ]} // Dynamically adjust width to text
+                ]}
               />
               <meshStandardMaterial
                 transparent
-                opacity={0.5} // Add some transparency
-                roughness={0.7} // Make it rough to simulate blur
-                envMapIntensity={0.2} // Add subtle reflections for blur effect
+                opacity={0.5}
+                roughness={0.7}
+                envMapIntensity={0.2}
               />
             </mesh>
             <Text fontSize={0.4} color="black" fontWeight={600}>
               Ladder Height: {Math.min(5, ladderLength).toFixed(2)}m
             </Text>
-          </Billboard>
-
-          {/* Draw the lines representing the Pythagorean triangle */}
+          </Billboard> */}
 
           {/* Base Line */}
           <Line
@@ -125,12 +133,12 @@ export const LadderProblemScene = ({
             color="black"
             lineWidth={5}
             rotation={[0, 0, 0]}
-            position={[0.2, 0.32, 2]}
+            position={[0, -0.3, 2]}
             scale={0.98} // Keep scale 1 for consistency
           />
 
           {/* Arrow for Base */}
-          <group position={[baseDistance + 0.2, 0.32, 2]} scale={2}>
+          <group position={[baseDistance, -0.3, 2]} scale={2}>
             <mesh
               rotation={[0, 0, -Math.PI / 2]} // Arrow pointing along the X-axis
               scale={[arrowSize, arrowSize, arrowSize]}
@@ -141,16 +149,16 @@ export const LadderProblemScene = ({
           </group>
 
           {/* Height Line */}
-          <Line
+          {/* <Line
             points={[heightStart, heightEnd]} // Height line
             color="black"
             lineWidth={5}
             position={[0.2, 0.32, 2]}
             scale={0.8}
-          />
+          /> */}
 
           {/* Arrow for Height */}
-          <group
+          {/* <group
             position={[0.2, heightEnd.y * 0.9 - 0.1, heightEnd.z + 2]} // Ensure the arrow is at the top of the height line
             scale={2}
           >
@@ -161,7 +169,7 @@ export const LadderProblemScene = ({
               <coneGeometry args={[0.2, 0.5, 3]} />
               <meshBasicMaterial color="black" />
             </mesh>
-          </group>
+          </group> */}
         </group>
       </Canvas>
     </div>

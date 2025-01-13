@@ -13,7 +13,7 @@ export default function Wall(props: any) {
     "./models/LADDA[wall swarup].glb"
   ) as unknown as GLTFResult;
   return (
-    <group {...props} dispose={null} scale={3.8} position={[3.2, 3, 0]}>
+    <group {...props} dispose={null} scale={3.8} position={[3.2, 3.3, 0]}>
       <mesh
         castShadow
         receiveShadow

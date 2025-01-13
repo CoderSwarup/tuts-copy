@@ -130,7 +130,7 @@ export default function LadderProblemPage() {
         />
       </div>
       {/* Interactive Controls */}
-      <div className="fixed  bottom-4 left-[40%]  -translate-x-[50%] bg-gray-900 h-[150px] p-3">
+      <div className="fixed  bottom-4 left-[40%]  -translate-x-[50%] bg-gray-900 h-[150px] p-3 rounded-lg">
         <div className="flex justify-between items-center mb-1">
           <h2 className="text-sm font-semibold text-white">
             What Should be the base Distance

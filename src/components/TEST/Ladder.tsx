@@ -13,23 +13,18 @@ export const Ladder = ({ baseDistance }: LadderProps) => {
 
     // Constants
     const ladderLength = 5; // Length of the ladder
-    const wallHeight = 4; // Fixed height of the wall
-
-    const clampedBaseDistance = Math.max(
-      Math.min(baseDistance, ladderLength - 0.5), // Slightly less than ladderLength
-      0.1 // Prevents division by zero or negative base distances
-    );
 
     // Calculate the ladder's angle using Pythagorean theorem
-    const heightFromBase = Math.sqrt(
-      ladderLength ** 2 - clampedBaseDistance ** 2
-    ); // Hypotenuse logic
-    const angle = Math.atan(heightFromBase / clampedBaseDistance);
+    const heightFromBase = Math.sqrt(ladderLength ** 2 - baseDistance ** 2);
+    let angle = Math.atan(heightFromBase / baseDistance);
 
-    groupRef.current.position.set(clampedBaseDistance, 0, 0);
+    if (baseDistance === 5) {
+      angle -= 0.07;
+    }
+
+    groupRef.current.position.set(baseDistance, 0, 0);
     groupRef.current.rotation.z = 1.5 - angle;
   }, [baseDistance]);
-
   return (
     <group ref={groupRef} position={[0, 0, 0]}>
       {/* Ladder rails */}
