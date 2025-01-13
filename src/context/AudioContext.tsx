@@ -10,10 +10,10 @@ const AudioContext = createContext<{
 export const AudioContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [selectedAudio, setSelectedAudio] = useState("English");
+  const [selectedAudio] = useState("English"); // No need for setSelectedAudio anymore
 
   return (
-    <AudioContext.Provider value={{ selectedAudio, setSelectedAudio }}>
+    <AudioContext.Provider value={{ selectedAudio, setSelectedAudio: () => {} }}>
       <AudioSelector />
       {children}
     </AudioContext.Provider>
@@ -30,23 +30,13 @@ export const useAudioContext = () => {
   }
   return context;
 };
+
 const AudioSelector: React.FC = () => {
-  const { selectedAudio, setSelectedAudio } = useAudioContext();
+  const { selectedAudio } = useAudioContext();
 
   return (
-    <div className="fixed bottom-[1%] left-2 z-[999] bg-gray-900 text-gray-200 p-2 rounded-lg shadow-lg border border-gray-700 flex flex-col gap-2">
-      <label htmlFor="audio-select" className="mr-4 text-sm font-medium">
-        Select Audio:
-      </label>
-      <select
-        id="audio-select"
-        value={selectedAudio}
-        onChange={(e) => setSelectedAudio(e.target.value)}
-        className="bg-gray-800 text-gray-200 text-sm p-2 rounded-md border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        <option value="English">English</option>
-        <option value="Gujarati">Gujarati</option>
-      </select>
+    <div className="fixed bottom-[2%] left-4 z-[999] bg-gray-900 text-gray-200 p-2 rounded-lg shadow-lg border border-gray-700 flex flex-col gap-2">
+      <span className="text-sm font-medium">Audio: {selectedAudio}</span>
     </div>
   );
 };

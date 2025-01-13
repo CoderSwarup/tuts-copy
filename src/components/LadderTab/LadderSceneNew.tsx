@@ -69,15 +69,7 @@ export default function LadderSceneNew({
         rotation={[1.5 - -angle, 0, Math.PI / 2]} // Reverse rotation logic
         scale={0.01}
       />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.XMLID_227_002.geometry}
-        material={materials["Material.012"]}
-        position={[0.3, bottomPosition.y - 0.1, -baseDistance * 0.1]}
-        rotation={[1.5 - -angle, 0, Math.PI / 2]} // Reverse rotation logic
-        scale={1 + baseDistance * 0.05}
-      />
+      
       <mesh
         castShadow
         receiveShadow
@@ -88,13 +80,13 @@ export default function LadderSceneNew({
       />{" "}
       {/* Dynamic Text on the ground */}
       <Billboard position-x={1} position-y={-0.84} position-z={-0.4}>
-        <Text fontSize={0.15} color="black">
+        <Text fontSize={0.15} color="white">
           Base Distance: {baseDistance}m
         </Text>
       </Billboard>
       {/* Dynamic Text on the wall */}
       <Billboard position-x={1} position-y={0.7} position-z={-0.3}>
-        <Text fontSize={0.15} color="black">
+        <Text fontSize={0.15} color="white">
           Wall Height: {wallHeight}m
         </Text>
       </Billboard>
@@ -122,13 +114,7 @@ export default function LadderSceneNew({
         position={[0.7, -0.8, -baseDistance * (baseDistance < 2 ? 0.0 : 0.25)]}
         scale={2}
       >
-        <mesh
-          rotation={[-Math.PI / 2, 0, 0]} // Arrow pointing along the X-axis
-          scale={[arrowSize, arrowSize, arrowSize]}
-        >
-          <coneGeometry args={[0.2, 0.5, 3]} />
-          <meshBasicMaterial color="black" />
-        </mesh>
+       
       </group>
       {/* Arrow for Height */}
       <group position={[0.7, 0.9, 0.2]} scale={2}>

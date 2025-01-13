@@ -6,16 +6,16 @@ import {
   PerspectiveCamera,
   Text,
 } from "@react-three/drei";
-
 import { Ladder } from "./Ladder";
 import Wall from "./Wall";
 import * as THREE from "three";
-
 import { Ground } from "./Ground";
+
 interface LadderProblemSceneProps {
   baseDistance: number;
   wallHeight: number;
 }
+
 export const LadderProblemScene = ({
   baseDistance,
   wallHeight,
@@ -32,6 +32,13 @@ export const LadderProblemScene = ({
 
   // Arrow size to indicate direction
   const arrowSize = 0.3;
+
+  // Function to dynamically scale the box size based on text size
+  const getTextWidth = (text: string) => {
+    const fontSize = 0.4; // Set a base font size
+    return text.length * fontSize * 0.8; // Adjust multiplier for better fit
+  };
+
   return (
     <div className="w-full h-full">
       <Canvas shadows>
@@ -60,20 +67,22 @@ export const LadderProblemScene = ({
           {/* Ladder */}
           <Ladder baseDistance={baseDistance} />
 
-          {/* <mesh
-  rotation-x={-Math.PI / 2}
-  position-x={2}
-  position-y={-0.2}
-  receiveShadow
->
-  <planeGeometry args={[10, 10]} />
-  <meshStandardMaterial color="#c0d476" />
-</mesh> */}
-
           <Ground />
 
           {/* Dynamic Text on the ground */}
           <Billboard position-x={2.5} position-y={0.2} position-z={3.9}>
+            {/* Transparent blurred background for text */}
+            <mesh>
+              <planeGeometry
+                args={[getTextWidth(`Base Distance: ${baseDistance}m`), 1]} // Dynamically adjust width to text
+              />
+              <meshStandardMaterial
+                transparent
+                opacity={0.5} // Add some transparency
+                roughness={0.7} // Make it rough to simulate blur
+                envMapIntensity={0.2} // Add subtle reflections for blur effect
+              />
+            </mesh>
             <Text fontSize={0.4} color="black" fontWeight={600}>
               Base Distance: {baseDistance}m
             </Text>
@@ -81,6 +90,18 @@ export const LadderProblemScene = ({
 
           {/* Dynamic Text on the wall */}
           <Billboard position-x={2.5} position-y={2.5} position-z={3.8}>
+            {/* Transparent blurred background for text */}
+            <mesh>
+              <planeGeometry
+                args={[getTextWidth(`Wall Height: ${wallHeight}m`), 1]} // Dynamically adjust width to text
+              />
+              <meshStandardMaterial
+                transparent
+                opacity={0.5} // Add some transparency
+                roughness={0.7} // Make it rough to simulate blur
+                envMapIntensity={0.2} // Add subtle reflections for blur effect
+              />
+            </mesh>
             <Text fontSize={0.4} color="black" fontWeight={600}>
               Wall Height: {wallHeight}m
             </Text>
@@ -88,7 +109,6 @@ export const LadderProblemScene = ({
 
           {/* Draw the lines representing the Pythagorean triangle */}
 
-          {/* Base Line */}
           {/* Base Line */}
           <Line
             points={[baseStart, baseEnd]} // Base line

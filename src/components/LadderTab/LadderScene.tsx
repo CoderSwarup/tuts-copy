@@ -1,4 +1,4 @@
-import { useGLTF, Text, Billboard } from "@react-three/drei";
+import { useGLTF, Text } from "@react-three/drei";
 import * as THREE from "three";
 import { Line } from "@react-three/drei";
 
@@ -41,9 +41,9 @@ export default function LadderScene({
   const hypotenuseStart = new THREE.Vector3(0, 0, 0); // Starting point of the hypotenuse
   const hypotenuseEnd = new THREE.Vector3(baseDistance, wallHeight, 0); // End point of the hypotenuse
 
-  // Arrow size to indicate direction
   const arrowSize = 0.3;
 
+  
   return (
     <group {...props} dispose={null} scale={2} position-y={5}>
       {/* Models */}
@@ -105,19 +105,35 @@ export default function LadderScene({
         />
       </group>
 
-      {/* Dynamic Text on the ground */}
-      <Billboard position-x={2} position-y={-1} position-z={-2.2}>
-        <Text fontSize={0.4} color="red">
+      {/* Text for Base Distance */}
+      <group position={[2, -1, -2.2]}>
+        <mesh>
+          <planeGeometry args={[3, 0.7]} />
+          <meshStandardMaterial color="white" />
+        </mesh>
+        <Text
+          fontSize={0.4}
+          color="white"
+          position={[0, 0, 0.1]} // Slight offset to ensure layering
+        >
           Base Distance: {baseDistance}m
         </Text>
-      </Billboard>
+      </group>
 
-      {/* Dynamic Text on the wall */}
-      <Billboard position-x={2} position-y={2} position-z={-2.2}>
-        <Text fontSize={0.4} color="red">
+      {/* Text for Wall Height */}
+      <group position={[2, 2, -2.2]}>
+        <mesh>
+          <planeGeometry args={[3, 0.7]} />
+          <meshStandardMaterial color="white" />
+        </mesh>
+        <Text
+          fontSize={0.4}
+          color="ReactThreeFiber.white"
+          position={[0, 0, 0.1]} // Slight offset to ensure layering
+        >
           Wall Height: {wallHeight}m
         </Text>
-      </Billboard>
+      </group>
 
       {/* Draw the lines representing the Pythagorean triangle */}
 
@@ -138,8 +154,6 @@ export default function LadderScene({
         position={[2, -1.4, -0.5]}
         scale={0.8}
       />
-
-      {/* Draw Arrows for the Base and Height lines */}
 
       {/* Arrow for Base */}
       <group
