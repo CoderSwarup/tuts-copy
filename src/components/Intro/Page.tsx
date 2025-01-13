@@ -11,7 +11,7 @@ import { useAudioContext } from "../../context/AudioContext";
 
 export default function Page() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -123,6 +123,10 @@ export default function Page() {
       setIsPlaying(false);
     }
   }, [currentTime, duration, currentSlide]);
+
+  useEffect(() => {
+    setIsPlaying(true);
+  }, []);
 
   return (
     <div className="min-h-screen overflow-hidden bg-gray-900 flex ">

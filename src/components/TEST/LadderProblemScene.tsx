@@ -20,12 +20,17 @@ export const LadderProblemScene = ({
   baseDistance,
   wallHeight,
 }: LadderProblemSceneProps) => {
+  let ladderLength = Math.sqrt(
+    Math.pow(baseDistance, 2) + Math.pow(wallHeight, 2)
+  );
+
   // Define the points for the lines: base, height, and hypotenuse
   const baseStart = new THREE.Vector3(0, 0, 0); // Starting point of the base
   const baseEnd = new THREE.Vector3(baseDistance, 0, 0); // End point of the base
 
+  ladderLength = ladderLength + (baseDistance <= 2 ? 2.5 : 1.5) - baseDistance;
   const heightStart = new THREE.Vector3(0, 0, 0); // Starting point of the height
-  const heightEnd = new THREE.Vector3(0, wallHeight, 0); // End point of the height
+  const heightEnd = new THREE.Vector3(0, ladderLength, 0); // End point of the height
 
   const hypotenuseStart = new THREE.Vector3(0, 0, 0); // Starting point of the hypotenuse
   const hypotenuseEnd = new THREE.Vector3(baseDistance, wallHeight, 0); // End point of the hypotenuse
@@ -72,7 +77,7 @@ export const LadderProblemScene = ({
           {/* Dynamic Text on the ground */}
           <Billboard position-x={2.5} position-y={0.2} position-z={3.9}>
             {/* Transparent blurred background for text */}
-            <mesh>
+            <mesh scale={0.8}>
               <planeGeometry
                 args={[getTextWidth(`Base Distance: ${baseDistance}m`), 1]} // Dynamically adjust width to text
               />
@@ -91,9 +96,14 @@ export const LadderProblemScene = ({
           {/* Dynamic Text on the wall */}
           <Billboard position-x={2.5} position-y={2.5} position-z={3.8}>
             {/* Transparent blurred background for text */}
-            <mesh>
+            <mesh scale={0.8}>
               <planeGeometry
-                args={[getTextWidth(`Wall Height: ${wallHeight}m`), 1]} // Dynamically adjust width to text
+                args={[
+                  getTextWidth(
+                    `Ladder Height: ${Math.min(5, ladderLength).toFixed(2)}m`
+                  ),
+                  1,
+                ]} // Dynamically adjust width to text
               />
               <meshStandardMaterial
                 transparent
@@ -103,7 +113,7 @@ export const LadderProblemScene = ({
               />
             </mesh>
             <Text fontSize={0.4} color="black" fontWeight={600}>
-              Wall Height: {wallHeight}m
+              Ladder Height: {Math.min(5, ladderLength).toFixed(2)}m
             </Text>
           </Billboard>
 
@@ -140,7 +150,10 @@ export const LadderProblemScene = ({
           />
 
           {/* Arrow for Height */}
-          <group position={[0.2, 3.6, 2]} scale={2}>
+          <group
+            position={[0.2, heightEnd.y * 0.9 - 0.1, heightEnd.z + 2]} // Ensure the arrow is at the top of the height line
+            scale={2}
+          >
             <mesh
               rotation={[0, -Math.PI / 2, 0]} // Arrow pointing along the Y-axis
               scale={[arrowSize, arrowSize, arrowSize]}
