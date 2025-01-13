@@ -54,6 +54,7 @@ export const LadderProblemScene = ({
           minAzimuthAngle={Math.PI / 7}
           maxPolarAngle={Math.PI / 2.4}
           minPolarAngle={Math.PI / 6}
+          enablePan={false}
         />
 
         {/* Lighting */}
