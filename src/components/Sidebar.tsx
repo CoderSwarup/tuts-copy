@@ -20,15 +20,19 @@ export default function Sidebar() {
     <div>
       {/* Fixed Menu Icon */}
       <div
-        className="fixed top-4 left-4 z-50  p-2 bg-gray-900 text-white rounded-full shadow-md cursor-pointer"
+        className="fixed top-4 left-4 z-[999]  p-2 bg-gray-900 text-white rounded-full shadow-md cursor-pointer"
         onClick={toggleMenu}
       >
-        {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        {isMenuOpen ? (
+          <X className="w-3 h-3 md:w-6 md:h-6" />
+        ) : (
+          <Menu className="w-3 h-3 md:w-6 md:h-6" />
+        )}
       </div>
 
       {/* Overlay Menu */}
       {isMenuOpen && (
-        <div className="fixed top-0 left-0 w-64 bg-gray-900 text-white z-40 shadow-lg p-4">
+        <div className="fixed top-0 left-0 w-64 bg-gray-900 text-white z-[888] shadow-lg p-4">
           <nav className="mt-10 space-y-4 ">
             {menuItems.map((item, i) => (
               <Link

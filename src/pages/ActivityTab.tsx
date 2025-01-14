@@ -11,29 +11,34 @@ function ActivityTab() {
   const hypotenuse = Math.sqrt(sideA * sideA + sideB * sideB);
   const { selectedAudio } = useAudioContext();
   return (
-    <div className="w-screen h-screen bg-gray-900 flex">
-      <Canvas
-        camera={{ position: [0, 0, 20], fov: 50 }}
-        className="h-full w-full"
-      >
-        <Scene sideA={sideA} sideB={sideB} />
-        <OrbitControls enableDamping dampingFactor={0.05} />
-      </Canvas>
+    <div className="w-screen h-screen bg-gray-900 flex flex-col md:flex-row">
+      {/* 3D Canvas Section */}
+      <div className="flex-1 min-h-[80vh] min-w-screen">
+        <Canvas
+          camera={{ position: [0, 0, 20], fov: 50 }}
+          className="h-[60vh] md:h-full w-full"
+        >
+          <Scene sideA={sideA} sideB={sideB} />
+          <OrbitControls enableDamping dampingFactor={0.05} />
+        </Canvas>
+      </div>
 
+      {/* Sidebar (Control Panel) */}
       <div
-        className={`bg-gray-800 p-6 z-10 transition-all duration-300 overflow-y-scroll  w-[500px]`}
+        className="bg-gray-800 p-6 z-10 w-full md:w-[500px] md:overflow-y-auto 
+                    flex flex-col justify-between transition-all duration-300"
       >
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full space-y-6">
           {/* Header */}
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-bold text-white">
+            <h1 className="text-2xl md:text-3xl font-bold text-white">
               3D Pythagorean Theorem
             </h1>
           </div>
 
           {/* Controls Section */}
           <div className="bg-gray-700/50 rounded-xl p-6 mb-6">
-            <h2 className="text-xl font-semibold text-white mb-4">
+            <h2 className="text-lg md:text-xl font-semibold text-white mb-4">
               Triangle Dimensions
             </h2>
 
@@ -100,7 +105,7 @@ function ActivityTab() {
 
           {/* Results Section */}
           <div className="bg-gray-700/50 rounded-xl p-6 mb-6">
-            <h2 className="text-xl font-semibold text-white mb-4">
+            <h2 className="text-lg md:text-xl font-semibold text-white mb-4">
               Calculations
             </h2>
 
@@ -158,6 +163,7 @@ function ActivityTab() {
         </div>
       </div>
 
+      {/* Audio Player */}
       <audio
         src={`./audio/${selectedAudio}/5_Activity.mp3`}
         className="hidden"

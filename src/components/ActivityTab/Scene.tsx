@@ -121,7 +121,7 @@ function Scene({ sideA, sideB }: SceneProps) {
     return <mesh geometry={geometry} material={triangleFillMaterial} />;
   };
   return (
-    <group ref={groupRef} position={[0, 0, 0]}>
+    <group ref={groupRef} position={[-2, 0, 0]}>
       {" "}
       <ambientLight intensity={0.6} />{" "}
       <directionalLight position={[10, 10, 10]} intensity={1.2} />{" "}
@@ -181,6 +181,7 @@ function Scene({ sideA, sideB }: SceneProps) {
               color: "#ffffff",
               fontSize: `${textSizeB}px`, // Responsive font size
               fontWeight: "bold",
+              zIndex: "-1",
             }}
           >
             B
@@ -194,6 +195,7 @@ function Scene({ sideA, sideB }: SceneProps) {
               fontSize: `${textSizeB}px`,
               textAlign: "center",
               width: "400px",
+              zIndex: "-1",
             }}
           >
             Area = {(sideB ** 2).toFixed(2)}

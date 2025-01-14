@@ -67,7 +67,7 @@ export const LadderProblemScene = ({
           shadow-mapSize-height={2048}
         />
 
-        <group scale={0.75} position={[-1, 1, 0]}>
+        <group scale={0.75} position={[-1, -0.5, 0]}>
           {/* Wall */}
           <Wall />
 

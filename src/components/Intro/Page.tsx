@@ -129,23 +129,23 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="min-h-screen overflow-hidden bg-gray-900 flex ">
+    <div className="min-h-screen overflow-hidden bg-gray-900 flex flex-col lg:flex-row">
       {/* Main Content - Left Side */}
-      <div className="flex-1 p-2 overflow-hidden">
-        <div className="bg-gray-800 rounded-3xl p-12 shadow-2xl h-full relative overflow-hidden">
+      <div className="flex-1 lg:p-2 overflow-hidden">
+        <div className="bg-gray-800 lg:rounded-3xl p-12 shadow-2xl h-full relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-b from-indigo-500/20 to-transparent rounded-full blur-3xl animate-pulse" />
           <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-t from-purple-500/20 to-transparent rounded-full blur-3xl animate-pulse delay-700" />
 
-          <h1 className="text-white text-center text-5xl font-bold tracking-tight mb-16 relative z-10 animate-fade-in">
+          <h1 className="text-white text-center text-wrap text-xl md:text-4xl font-bold tracking-tight mb-16 relative z-10 animate-fade-in">
             {slides[currentSlide].title}
           </h1>
 
-          <div className="relative w-[500px] h-[500px]  transform hover:scale-102 transition-transform duration-500">
+          <div className="relative w-full h-96 transform hover:scale-102 transition-transform duration-500">
             <svg
-              width="900"
-              height="460"
-              viewBox="0 0 460 460"
-              className="transform transition-all fixed "
+              width="100%"
+              height="100%"
+              viewBox="0 0 460 470"
+              className="transform transition-all fixed"
             >
               <defs>
                 <linearGradient
@@ -216,11 +216,11 @@ export default function Page() {
               {currentSlide >= 0 && (
                 <>
                   <text
-                    x="230"
-                    y="452"
+                    x="50%"
+                    y="98%"
                     textAnchor="middle"
                     dominantBaseline="middle"
-                    fontSize="25"
+                    fontSize="2rem"
                     fill="white"
                     className="animate-fade-in cursor-pointer"
                     onMouseEnter={() => setHoveredSide("b")}
@@ -231,42 +231,39 @@ export default function Page() {
                       : "b"}
                   </text>
                   <text
-                    x={`${
-                      currentSlide >= 1 && hoveredSide === "a" ? "580" : "460"
-                    }`}
-                    y="220"
+                    x="90%"
+                    y="50%"
                     textAnchor="end"
                     dominantBaseline="middle"
-                    fontSize="25"
+                    fontSize="2rem"
                     fill="white"
                     className="animate-fade-in cursor-pointer"
                     onMouseEnter={() => setHoveredSide("a")}
                     onMouseLeave={() => setHoveredSide("")}
                   >
                     {currentSlide >= 1 && hoveredSide === "a"
-                      ? "a = √(c² - b²)"
+                      ? "a = √(c²-b²)"
                       : "a"}
                   </text>
                   <text
-                    x={`${
-                      (currentSlide >= 1 && hoveredSide === "c") ||
+                    x={
+                      (currentSlide === 1 && hoveredSide === "c") ||
                       currentSlide === 0
-                        ? "155"
-                        : "210"
-                    }`}
-                    y="200"
+                        ? "30%"
+                        : "45%"
+                    }
+                    y="45%"
                     textAnchor="middle"
                     dominantBaseline="middle"
-                    fontSize="25"
+                    fontSize="2rem"
                     fill="white"
-                    className={`animate-fade-in cursor-pointer bg-gray-900`}
+                    className="animate-fade-in cursor-pointer"
                     onMouseEnter={() => setHoveredSide("c")}
                     onMouseLeave={() => setHoveredSide("")}
                   >
                     {currentSlide >= 1 && hoveredSide === "c"
                       ? "c = √(a² + b²)"
                       : ""}
-
                     {currentSlide == 1 && hoveredSide !== "c" && "c"}
                     {currentSlide == 0 && "c = √(a² + b²)"}
                   </text>
@@ -274,67 +271,58 @@ export default function Page() {
               )}
 
               {/* Right Angle Box */}
-              <rect
-                x="380"
-                y="420"
-                width="15"
-                height="15"
-                fill="#6366F1"
-                className="origin-center rotate-45"
-              />
 
-              {/* ************************ */}
               {/* Audio Playing Animation */}
               {currentSlide === 0 && isPlaying && (
-                <line
-                  key={0}
-                  x1={30}
-                  y1={430}
-                  x2={430}
-                  y2={430}
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeDasharray="10 5"
-                  strokeDashoffset="100%"
-                  className="animate-line" // Add the animation class here
-                />
+                <>
+                  {/* First Line */}
+                  <line
+                    key={0}
+                    x1={30}
+                    y1={430}
+                    x2={430}
+                    y2={430}
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeDasharray="10 5"
+                    strokeDashoffset="100%"
+                    className="animate-line" // This will animate from right to left
+                  />
+
+                  {/* Second Line */}
+                  <line
+                    key={1}
+                    x1={430}
+                    y1={430}
+                    x2={430}
+                    y2={30}
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeDasharray="10 5"
+                    strokeDashoffset="100%"
+                    className="animate-line" // This will animate from bottom to top
+                  />
+
+                  {/* Third Line */}
+                  <line
+                    key={2}
+                    x1={30}
+                    y1={430}
+                    x2={430}
+                    y2={30}
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeDasharray="10 5"
+                    strokeDashoffset="100%"
+                    className="animate-line-reverse" // This will animate from bottom-left to top-right
+                  />
+                </>
               )}
 
-              {currentSlide === 0 && isPlaying && (
-                <line
-                  key={1}
-                  x1={430}
-                  y1={430}
-                  x2={430}
-                  y2={30}
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeDasharray="10 5"
-                  strokeDashoffset="100%"
-                  className="animate-line"
-                />
-              )}
-
-              {currentSlide === 0 && isPlaying && (
-                <line
-                  key={2}
-                  x1={30}
-                  y1={430}
-                  x2={430}
-                  y2={30}
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeDasharray="10 5"
-                  strokeDashoffset="100%"
-                  className="animate-line-reverse"
-                />
-              )}
-
-              {/* ************************ */}
-              {/* hover Glow B */}
+              {/* Hover Effects for Sides */}
               {currentSlide === 1 && hoveredSide === "b" && (
                 <line
                   key={0}
@@ -350,7 +338,6 @@ export default function Page() {
                 />
               )}
 
-              {/* hover Glow a */}
               {currentSlide === 1 && hoveredSide === "a" && (
                 <line
                   key={1}
@@ -366,7 +353,6 @@ export default function Page() {
                 />
               )}
 
-              {/* hover Glow c */}
               {currentSlide === 1 && hoveredSide === "c" && (
                 <line
                   key={2}
@@ -399,7 +385,7 @@ export default function Page() {
       </div>
 
       {/* Sidebar - Right Side */}
-      <div className="w-96 bg-gray-800 p-3 flex flex-col gap-6">
+      <div className=" w-full lg:w-96 bg-gray-800 p-3 flex flex-col gap-6">
         <div className="bg-gray-700 rounded-xl p-6 shadow-lg">
           <div className="text-white text-xl p-1 font-light mb-6 min-h-[200px] max-h-[200px] overflow-y-scroll d-scrollbar">
             {slides[currentSlide].content}

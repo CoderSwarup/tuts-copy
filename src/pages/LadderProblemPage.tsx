@@ -1,8 +1,8 @@
 import { Info, RotateCcw, CheckCircle2, AlertCircle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-
 import { LadderProblemScene } from "../components/TEST/LadderProblemScene";
 import { useAudioContext } from "../context/AudioContext";
+
 export default function LadderProblemPage() {
   const [sliderValue, setSliderValue] = useState(2);
   const [submit, setSubmit] = useState(false);
@@ -69,22 +69,61 @@ export default function LadderProblemPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 flex">
+    <div className="min-h-screen bg-gray-900 flex flex-col lg:flex-row">
       {/* Main Content - Left Side */}
-      <div className="flex-1 p-2 max-h-screen ">
-        <div className="bg-gray-800 rounded-2xl p-2 shadow-2xl h-full relative overflow-hidden ">
-          <h1 className="text-white text-center text-4xl font-bold tracking-tight mb-12 relative z-10">
+      <div className="relative flex-1 p-2 min-h-[90vh]  lg:min-h-screen bg-gray-800 lg:rounded-2xl shadow-2xl ">
+        <div className="  p-2 h-full relative overflow-hidden">
+          <h1 className="text-white text-center  mt-5 md:mt-0  text-2xl md:text-4xl font-bold tracking-tight mb-12 relative z-10">
             Ladder Safety Problem
           </h1>
 
-          <LadderProblemScene baseDistance={sliderValue} wallHeight={4} />
+          {/* Adjust canvas size for mobile */}
+          <div className="w-full h-[300px] md:h-[400px] lg:h-[500px]">
+            <LadderProblemScene baseDistance={sliderValue} wallHeight={4} />
+          </div>
+        </div>
+
+        {/* Interactive Controls */}
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-900 w-[250px] md:w-[300px] p-2 rounded-lg md:p-3">
+          <div className="flex justify-between items-center md:mb-1">
+            <h2 className="text-[10px] md:text-sm font-semibold text-white">
+              What Should be the base Distance
+            </h2>
+            <span className="text-blue-400 font-mono font-bold text-[10px] md:text-sm">
+              {sliderValue}m
+            </span>
+          </div>
+
+          <input
+            type="range"
+            min={1}
+            max={5}
+            step={0.1}
+            value={sliderValue}
+            onChange={(e) => setSliderValue(parseFloat(e.target.value))}
+            className="w-full  h-1 md:h-2 bg-blue-500/30 rounded-lg appearance-none cursor-pointer
+                [&::-webkit-slider-thumb]:appearance-none
+                [&::-webkit-slider-thumb]:w-4
+                [&::-webkit-slider-thumb]:h-4
+                [&::-webkit-slider-thumb]:bg-blue-500
+                [&::-webkit-slider-thumb]:rounded-full
+                [&::-webkit-slider-thumb]:cursor-pointer
+                [&::-webkit-slider-thumb]:transition-all
+                [&::-webkit-slider-thumb]:hover:scale-110"
+          />
+
+          <button
+            onClick={handleSubmit}
+            className="w-full mt-4 bg-blue-600 text-white py-2 md:px-4   md:py-3 md:px-8 rounded-lg hover:bg-blue-500 transition-all duration-200 font-semibold"
+          >
+            Check Answer
+          </button>
         </div>
       </div>
 
       {/* Sidebar - Right Side */}
-      <div className="w-[400px] bg-gray-800 p-6 flex flex-col max-h-screen overflow-y-scroll">
+      <div className="w-full lg:w-[400px] bg-gray-800 p-6 flex flex-col max-h-screen overflow-y-scroll">
         <h2 className="text-2xl font-bold text-white mb-4">Problem</h2>
-        {/* Problem Statement */}
         <div className="bg-gray-700/50 rounded-xl p-6 mb-6">
           <p className="text-gray-300 leading-relaxed">
             A ladder is 5 metres long and needs to reach a height of 4 metres on
@@ -128,42 +167,6 @@ export default function LadderProblemPage() {
           src={`./audio/${selectedAudio}/12_Ladder.mp3`}
           className="hidden"
         />
-      </div>
-      {/* Interactive Controls */}
-      <div className="fixed  bottom-4 left-[40%]  -translate-x-[50%] bg-gray-900 h-[150px] p-3 rounded-lg">
-        <div className="flex justify-between items-center mb-1">
-          <h2 className="text-sm font-semibold text-white">
-            What Should be the base Distance
-          </h2>
-          <span className="text-blue-400 font-mono font-bold">
-            {sliderValue}m
-          </span>
-        </div>
-
-        <input
-          type="range"
-          min={1}
-          max={5}
-          step={0.1}
-          value={sliderValue}
-          onChange={(e) => setSliderValue(parseFloat(e.target.value))}
-          className="w-full h-2 bg-blue-500/30 rounded-lg appearance-none cursor-pointer
-                [&::-webkit-slider-thumb]:appearance-none
-                [&::-webkit-slider-thumb]:w-4
-                [&::-webkit-slider-thumb]:h-4
-                [&::-webkit-slider-thumb]:bg-blue-500
-                [&::-webkit-slider-thumb]:rounded-full
-                [&::-webkit-slider-thumb]:cursor-pointer
-                [&::-webkit-slider-thumb]:transition-all
-                [&::-webkit-slider-thumb]:hover:scale-110"
-        />
-
-        <button
-          onClick={handleSubmit}
-          className="w-full mt-4 bg-blue-600 text-white py-3 px-8 rounded-lg hover:bg-blue-500 transition-all duration-200 font-semibold"
-        >
-          Check Answer
-        </button>
       </div>
     </div>
   );

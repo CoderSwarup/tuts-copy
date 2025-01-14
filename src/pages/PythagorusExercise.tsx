@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Check, X, RotateCcw, ArrowRight } from "lucide-react";
+import { Check, X, RotateCcw } from "lucide-react";
 import { useAudioContext } from "../context/AudioContext";
 
 interface Question {
@@ -80,14 +80,14 @@ export default function PythagorasExercise() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 flex">
+    <div className="min-h-screen bg-gray-900 flex flex-col md:flex-row">
       {/* Main Content - Left Side */}
-      <div className="flex-1 p-2 overflow-hidden max-h-screen">
-        <div className="bg-gray-800 rounded-3xl p-12 shadow-2xl h-full relative overflow-hidden">
+      <div className="flex-1 lg:p-2 overflow-hidden max-h-screen flex justify-center items-center">
+        <div className="bg-gray-800 lg:rounded-3xl p-4 shadow-2xl w-full  h-screen lg:h-full relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-b from-indigo-500/20 to-transparent rounded-full blur-3xl animate-pulse" />
           <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-t from-purple-500/20 to-transparent rounded-full blur-3xl animate-pulse delay-700" />
 
-          <h1 className="text-white text-center text-4xl font-bold tracking-tight mb-16 relative z-10">
+          <h1 className="text-white text-center mt-5 lg:mt-0 text-lg lg:text-4xl font-bold tracking-tight mb-16 relative z-10">
             Pythagoras Theorem Exercise
           </h1>
 
@@ -108,7 +108,7 @@ export default function PythagorasExercise() {
           </div>
 
           {/* Triangle Visualization */}
-          <div className="relative w-[500px] h-[500px] mx-auto transform hover:scale-105 transition-transform duration-500">
+          <div className="relative w-full max-w-[500px] h-[500px] mx-auto transform hover:scale-105 transition-transform duration-500">
             <svg
               viewBox="0 0 400 400"
               className="w-full h-full transform transition-all duration-700"
@@ -149,7 +149,6 @@ export default function PythagorasExercise() {
                 fill="none"
                 stroke="#6366F1"
                 strokeWidth="3"
-                className="animate-draw"
               />
 
               {/* Measurements */}
@@ -216,7 +215,7 @@ export default function PythagorasExercise() {
       </div>
 
       {/* Sidebar - Right Side */}
-      <div className="w-96 max-h-screen bg-gray-800 p-2 flex flex-col gap-6">
+      <div className="w-full md:w-96 bg-gray-800 p-2 flex flex-col gap-6 overflow-auto">
         {showCongrats ? (
           <div className="bg-gray-700 rounded-xl p-8 text-center animate-fade-in">
             <h2 className="text-3xl font-bold text-white mb-4">
@@ -237,8 +236,7 @@ export default function PythagorasExercise() {
           </div>
         ) : (
           <>
-            <h1 className="text-white  text-2xl font-bold tracking-tight  ">
-              {" "}
+            <h1 className="text-white text-2xl font-bold tracking-tight">
               Exercise
             </h1>
             <div className="bg-gray-700 rounded-xl p-2 shadow-lg">
