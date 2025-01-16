@@ -1,4 +1,5 @@
 import { Html } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 interface SceneProps {
@@ -7,6 +8,9 @@ interface SceneProps {
 }
 function Scene({ sideA, sideB }: SceneProps) {
   const groupRef = useRef<THREE.Group>(null);
+  const [isFirstVisit, setIsFirstVisit] = useState(true);
+
+  const arrowRef = useRef<THREE.Group | null>(null);
 
   const [textSizeA, setTextSizeA] = useState(9);
   const [textSizeB, setTextSizeB] = useState(9);
@@ -120,14 +124,51 @@ function Scene({ sideA, sideB }: SceneProps) {
     geometry.setIndex([0, 1, 2]);
     return <mesh geometry={geometry} material={triangleFillMaterial} />;
   };
+
+  useFrame(() => {
+    if (arrowRef.current) {
+      const time = Date.now() * 0.001;
+
+      arrowRef.current.position.x = sideB + 1 + Math.sin(time) * 0.5; // Move back and forth with amplitude of 1.5
+      arrowRef.current.position.z = Math.sin(time) * 1.5; // Move back and forth with amplitude of 1.5
+    }
+  });
+  const handleUserInteraction = () => {
+    setIsFirstVisit(false); // Hide the arrow when the user interacts
+  };
   return (
-    <group ref={groupRef} position={[-2, 0, 0]}>
+    <group
+      ref={groupRef}
+      position={[-2, 0, 0]}
+      onPointerDown={handleUserInteraction}
+    >
       {" "}
       <ambientLight intensity={0.6} />{" "}
       <directionalLight position={[10, 10, 10]} intensity={1.2} />{" "}
       <directionalLight position={[-10, -10, -10]} intensity={0.5} />{" "}
       {/* <gridHelper args={[20, 20, "#444", "#666"]} /> */}{" "}
       {createTriangleFill()}{" "}
+      {isFirstVisit && (
+        <group
+          ref={arrowRef}
+          position={[5, -0, 1.1]} // Positioning the arrow
+          rotation={[0, 0, 0]}
+          scale={0.5}
+        >
+          <Html transform>
+            <div
+              className="w-[200px] h-[200px] bg-contain bg-no-repeat "
+              style={{
+                backgroundImage: "url('./arrow.png')",
+                backgroundSize: "contain",
+                backgroundRepeat: "no-repeat",
+                transformOrigin: "center center",
+                pointerEvents: "none",
+              }}
+            />
+          </Html>
+        </group>
+      )}
       <mesh
         position={[-sideA / 2, sideA / 2, 0.7]}
         geometry={cubeAGeometry}

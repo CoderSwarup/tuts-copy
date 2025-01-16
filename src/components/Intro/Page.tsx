@@ -18,6 +18,8 @@ export default function Page() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [hoveredSide, setHoveredSide] = useState("");
 
+  const [isHovered, setisHovered] = useState(false);
+
   const { selectedAudio } = useAudioContext();
 
   const slides = [
@@ -131,8 +133,8 @@ export default function Page() {
   return (
     <div className="min-h-screen overflow-hidden bg-gray-900 flex flex-col lg:flex-row">
       {/* Main Content - Left Side */}
-      <div className="flex-1 lg:p-2 overflow-hidden">
-        <div className="bg-gray-800 lg:rounded-3xl p-12 shadow-2xl h-full relative overflow-hidden">
+      <div className=" flex-1 lg:p-2 overflow-hidden">
+        <div className="relative bg-gray-800 lg:rounded-3xl p-12 shadow-2xl h-full relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-b from-indigo-500/20 to-transparent rounded-full blur-3xl animate-pulse" />
           <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-t from-purple-500/20 to-transparent rounded-full blur-3xl animate-pulse delay-700" />
 
@@ -183,7 +185,9 @@ export default function Page() {
                 fill="none"
                 stroke="transparent"
                 strokeWidth="30"
-                onMouseEnter={() => setHoveredSide("b")}
+                onMouseEnter={() => {
+                  setHoveredSide("b"), setisHovered(true);
+                }}
                 onMouseLeave={() => setHoveredSide("")}
               />
               <path
@@ -191,7 +195,9 @@ export default function Page() {
                 fill="none"
                 stroke="transparent"
                 strokeWidth="30"
-                onMouseEnter={() => setHoveredSide("a")}
+                onMouseEnter={() => {
+                  setHoveredSide("a"), setisHovered(true);
+                }}
                 onMouseLeave={() => setHoveredSide("")}
               />
               <path
@@ -199,7 +205,9 @@ export default function Page() {
                 fill="none"
                 stroke="transparent"
                 strokeWidth="30"
-                onMouseEnter={() => setHoveredSide("c")}
+                onMouseEnter={() => {
+                  setHoveredSide("c"), setisHovered(true);
+                }}
                 onMouseLeave={() => setHoveredSide("")}
               />
 
@@ -368,6 +376,85 @@ export default function Page() {
                 />
               )}
 
+              {/* Arrow Animation */}
+              {currentSlide === 1 && !isHovered && (
+                <>
+                  {/* Reversed Arrow for side a (bottom edge) */}
+                  <g
+                    className="animate-arrow-b"
+                    style={{ transformOrigin: "center" }}
+                  >
+                    <polygon points="230,430 220,440 240,440" fill="white" />
+                  </g>
+
+                  {/* Reversed Arrow for side b (right edge) */}
+                  <g
+                    className="animate-arrow-a"
+                    style={{ transformOrigin: "center" }}
+                  >
+                    <polygon points="420,230 430,240 430,220" fill="white" />
+                  </g>
+
+                  {/* Reversed Arrow for side c (hypotenuse) */}
+                  <g
+                    className="animate-arrow-c"
+                    style={{ transformOrigin: "center" }}
+                  >
+                    <polygon points="240,230 230,240 230,220" fill="white" />
+                  </g>
+                </>
+              )}
+
+              {currentSlide === 0 && (
+                <>
+                  <text
+                    x="65%" // X-position for the label (adjust as needed)
+                    y="65%" // Y-position for the label (adjust as needed)
+                    transform="rotate(90 80% 50%)" // Rotate the text 90 degrees centered at (80%, 50%)
+                    textAnchor="middle" // Center the text horizontally
+                    dominantBaseline="middle" // Center the text vertically
+                    fontSize="1.5rem"
+                    fill="white"
+                    className="animate-fade-in cursor-pointer"
+                  >
+                    <tspan x="75%" dy="-1.2em">
+                      Perpendicular
+                    </tspan>{" "}
+                    {/* First line */}
+                    <tspan x="75%" dy="1.2em">
+                      To b
+                    </tspan>{" "}
+                    {/* Second line */}
+                  </text>
+
+                  {/* Label for Side a (Left side of the triangle) */}
+                  <text
+                    x="20%" // Position for the side 'a' label
+                    y="55%" // Position for the side 'a' label
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fontSize="1.5rem"
+                    fill="white"
+                    className="animate-fade-in cursor-pointer"
+                  >
+                    Hypotenuse
+                  </text>
+
+                  {/* Label for Side b (Base side at the bottom) */}
+                  <text
+                    x="65%" // Position for the side 'b' label
+                    y="98%" // Position for the side 'b' label (at the bottom)
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fontSize="1.5rem"
+                    fill="white"
+                    className="animate-fade-in cursor-pointer"
+                  >
+                    Base
+                  </text>
+                </>
+              )}
+
               {/* 90° Label */}
               <text
                 x="400"
@@ -381,6 +468,12 @@ export default function Page() {
               </text>
             </svg>
           </div>
+
+          {currentSlide === 1 && (
+            <div className="absolute bottom-1 right-3 bg-gray-900 text-gray-400 p-4 rounded-lg">
+              <p className="text-sm">Sum of angles equals 90deg</p>
+            </div>
+          )}
         </div>
       </div>
 

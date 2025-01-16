@@ -82,3 +82,68 @@ body {
 .animate-line-reverse {
   animation: animate-line 5s linear reverse infinite;
 }
+
+@keyframes updown {
+  0% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(10px); /* Moves down 10px */
+  }
+  100% {
+    transform: translateY(-2px); /* Moves back up to the original position */
+  }
+}
+
+/* Apply the animation to your MoveDownIcon */
+.animate-updown {
+  animation: updown 1s ease-in-out infinite; /* 1s duration, infinite loop */
+}
+
+@keyframes arrow-slide-b {
+  0% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(15px); /* Moves down 10px */
+  }
+  100% {
+    transform: translateY(-2px); /* Moves back up to the original position */
+  }
+}
+/* Apply animations to arrows */
+.animate-arrow-b {
+  animation: arrow-slide-b 1s ease-out infinite;
+}
+
+@keyframes arrow-slide-a {
+  0% {
+    transform: translateX(6px);
+  }
+  50% {
+    transform: translateX(20px); /* Moves down 10px */
+  }
+  100% {
+    transform: translateX(6px); /* Moves back up to the original position */
+  }
+}
+
+.animate-arrow-a {
+  animation: arrow-slide-a 1s ease-out infinite;
+}
+
+@keyframes arrow-slide-c {
+  0% {
+    transform: translateX(-6px);
+  }
+  50% {
+    transform: translateX(-20px); /* Moves down 10px */
+  }
+  100% {
+    transform: translateX(-6px); /* Moves back up to the original position */
+  }
+}
+
+.animate-arrow-c {
+  animation: arrow-slide-c 1s ease-out 0.5s infinite; /* Delay */
+}

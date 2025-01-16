@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import { Info, RotateCcw } from "lucide-react";
+import { Info, MoveDownIcon, RotateCcw } from "lucide-react";
 import Scene from "../components/ActivityTab/Scene";
 import { useAudioContext } from "../context/AudioContext";
 
@@ -10,6 +10,8 @@ function ActivityTab() {
   const [sideB, setSideB] = useState(4);
   const hypotenuse = Math.sqrt(sideA * sideA + sideB * sideB);
   const { selectedAudio } = useAudioContext();
+  const [isSlide, setIsSlide] = useState(false);
+
   return (
     <div className="w-screen h-screen bg-gray-900 flex flex-col md:flex-row">
       {/* 3D Canvas Section */}
@@ -45,6 +47,7 @@ function ActivityTab() {
             <div className="space-y-6">
               {/* Side A Control */}
               <div>
+                <span></span>
                 <div className="flex justify-between items-center mb-2">
                   <label className="text-sm font-medium text-gray-200">
                     Side A
@@ -53,23 +56,31 @@ function ActivityTab() {
                     {sideA.toFixed(1)} units
                   </span>
                 </div>
-                <input
-                  type="range"
-                  min="1"
-                  max="10"
-                  step="0.1"
-                  value={sideA}
-                  onChange={(e) => setSideA(Number(e.target.value))}
-                  className="w-full h-2 bg-blue-500/30 rounded-lg appearance-none cursor-pointer
-                    [&::-webkit-slider-thumb]:appearance-none
-                    [&::-webkit-slider-thumb]:w-4
-                    [&::-webkit-slider-thumb]:h-4
-                    [&::-webkit-slider-thumb]:bg-blue-500
-                    [&::-webkit-slider-thumb]:rounded-full
-                    [&::-webkit-slider-thumb]:cursor-pointer
-                    [&::-webkit-slider-thumb]:transition-all
-                    [&::-webkit-slider-thumb]:hover:scale-110"
-                />
+                <div className="relative">
+                  {!isSlide && (
+                    <MoveDownIcon className="w-5 h-5 absolute -top-5 left-[21%] translate-x-[50%] animate-updown" />
+                  )}
+                  <input
+                    type="range"
+                    min="1"
+                    max="10"
+                    step="0.1"
+                    value={sideA}
+                    onChange={(e) => {
+                      setIsSlide(true);
+                      setSideA(Number(e.target.value));
+                    }}
+                    className="w-full h-2 bg-blue-500/30 rounded-lg appearance-none cursor-pointer
+                  [&::-webkit-slider-thumb]:appearance-none
+                  [&::-webkit-slider-thumb]:w-4
+                  [&::-webkit-slider-thumb]:h-4
+                  [&::-webkit-slider-thumb]:bg-blue-500
+                  [&::-webkit-slider-thumb]:rounded-full
+                  [&::-webkit-slider-thumb]:cursor-pointer
+                  [&::-webkit-slider-thumb]:transition-all
+                  [&::-webkit-slider-thumb]:hover:scale-110"
+                  />
+                </div>
               </div>
 
               {/* Side B Control */}
@@ -82,14 +93,21 @@ function ActivityTab() {
                     {sideB.toFixed(1)} units
                   </span>
                 </div>
-                <input
-                  type="range"
-                  min="1"
-                  max="10"
-                  step="0.1"
-                  value={sideB}
-                  onChange={(e) => setSideB(Number(e.target.value))}
-                  className="w-full h-2 bg-green-500/30 rounded-lg appearance-none cursor-pointer
+                <div className="relative">
+                  {!isSlide && (
+                    <MoveDownIcon className="w-5 h-5 absolute -top-5 left-[31%] translate-x-[50%] animate-updown" />
+                  )}
+                  <input
+                    type="range"
+                    min="1"
+                    max="10"
+                    step="0.1"
+                    value={sideB}
+                    onChange={(e) => {
+                      setSideB(Number(e.target.value));
+                      setIsSlide(true);
+                    }}
+                    className="w-full h-2 bg-green-500/30 rounded-lg appearance-none cursor-pointer
                     [&::-webkit-slider-thumb]:appearance-none
                     [&::-webkit-slider-thumb]:w-4
                     [&::-webkit-slider-thumb]:h-4
@@ -98,7 +116,8 @@ function ActivityTab() {
                     [&::-webkit-slider-thumb]:cursor-pointer
                     [&::-webkit-slider-thumb]:transition-all
                     [&::-webkit-slider-thumb]:hover:scale-110"
-                />
+                  />
+                </div>
               </div>
             </div>
           </div>
