@@ -471,7 +471,7 @@ export default function Page() {
 
           {currentSlide === 1 && (
             <div className="absolute bottom-1 right-3 bg-gray-900 text-gray-400 p-4 rounded-lg">
-              <p className="text-sm">Sum of angles equals 90deg</p>
+              <p className="text-sm">Sum of angles equals 180&deg;</p>
             </div>
           )}
         </div>
