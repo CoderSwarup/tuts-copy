@@ -425,16 +425,11 @@ export default function Page() {
                     <tspan x="75%" dy="-1.2em">
                       Perpendicular
                     </tspan>{" "}
-                    {/* First line */}
-                    <tspan x="75%" dy="1.2em">
-                      To b
-                    </tspan>{" "}
-                    {/* Second line */}
                   </text>
 
                   {/* Label for Side a (Left side of the triangle) */}
                   <text
-                    x="20%" // Position for the side 'a' label
+                    x="25%" // Position for the side 'a' label
                     y="55%" // Position for the side 'a' label
                     textAnchor="middle"
                     dominantBaseline="middle"
