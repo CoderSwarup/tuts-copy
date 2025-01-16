@@ -130,6 +130,11 @@ export default function Page() {
     setIsPlaying(true);
   }, []);
 
+  const SetHoverTrue = () => {
+    if (currentSlide === 1) {
+      setisHovered(true);
+    }
+  };
   return (
     <div className="min-h-screen overflow-hidden bg-gray-900 flex flex-col lg:flex-row">
       {/* Main Content - Left Side */}
@@ -186,7 +191,7 @@ export default function Page() {
                 stroke="transparent"
                 strokeWidth="30"
                 onMouseEnter={() => {
-                  setHoveredSide("b"), setisHovered(true);
+                  setHoveredSide("b"), SetHoverTrue();
                 }}
                 onMouseLeave={() => setHoveredSide("")}
               />
@@ -196,7 +201,7 @@ export default function Page() {
                 stroke="transparent"
                 strokeWidth="30"
                 onMouseEnter={() => {
-                  setHoveredSide("a"), setisHovered(true);
+                  setHoveredSide("a"), SetHoverTrue();
                 }}
                 onMouseLeave={() => setHoveredSide("")}
               />
@@ -206,7 +211,7 @@ export default function Page() {
                 stroke="transparent"
                 strokeWidth="30"
                 onMouseEnter={() => {
-                  setHoveredSide("c"), setisHovered(true);
+                  setHoveredSide("c"), SetHoverTrue();
                 }}
                 onMouseLeave={() => setHoveredSide("")}
               />
