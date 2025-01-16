@@ -410,6 +410,7 @@ export default function Page() {
                 </>
               )}
 
+              {/* Labels */}
               {currentSlide === 0 && (
                 <>
                   <text
@@ -451,6 +452,49 @@ export default function Page() {
                     className="animate-fade-in cursor-pointer"
                   >
                     Base
+                  </text>
+                </>
+              )}
+
+              {/* Vertex */}
+              {currentSlide >= 0 && (
+                <>
+                  <text
+                    x="96%"
+                    y="6%"
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fontSize="2rem"
+                    fill="white"
+                    className="animate-fade-in cursor-pointer"
+                  >
+                    B
+                  </text>
+
+                  {/* Label for Side a (Left side of the triangle) */}
+                  <text
+                    x="2%" // Position for the side 'a' label
+                    y="90%" // Position for the side 'a' label
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fontSize="2rem"
+                    fill="white"
+                    className="animate-fade-in cursor-pointer"
+                  >
+                    A
+                  </text>
+
+                  {/* Label for Side b (Base side at the bottom) */}
+                  <text
+                    x="98%" // Position for the side 'b' label
+                    y="90%" // Position for the side 'b' label (at the bottom)
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fontSize="2rem"
+                    fill="white"
+                    className="animate-fade-in cursor-pointer uppercase "
+                  >
+                    C
                   </text>
                 </>
               )}
