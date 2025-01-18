@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Check, X, RotateCcw } from "lucide-react";
 import { useAudioContext } from "../context/AudioContext";
+import AudioPlayer from "../components/AudioPlayer";
 
 interface Question {
   sides: [number | null, number | null, number | null];
@@ -39,7 +40,7 @@ export default function PythagorasExercise() {
         message: "Excellent! That's correct! 🎉",
       });
 
-      introAudio.current?.pause();
+      // introAudio.current?.pause();
       correctAudioRef.current?.play();
 
       const newCompleted = [...completedQuestions];
@@ -62,7 +63,7 @@ export default function PythagorasExercise() {
         isCorrect: false,
         message: "Not quite right. Try again using the Pythagorean Theorem.",
       });
-      introAudio.current?.pause();
+      // introAudio.current?.pause();
       wrongAudioRef.current?.play();
     }
   };
@@ -76,7 +77,7 @@ export default function PythagorasExercise() {
   };
 
   useEffect(() => {
-    introAudio.current?.play();
+    // introAudio.current?.play();
   }, []);
 
   return (
@@ -88,7 +89,7 @@ export default function PythagorasExercise() {
           <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-t from-purple-500/20 to-transparent rounded-full blur-3xl animate-pulse delay-700" />
 
           <h1 className="text-white text-center mt-5 lg:mt-0 text-lg lg:text-4xl font-bold tracking-tight mb-16 relative z-10">
-            Pythagoras Theorem Exercise
+            Pythagoras Exercise
           </h1>
 
           {/* Question Progress */}
@@ -284,7 +285,13 @@ export default function PythagorasExercise() {
               </div>
             )}
 
-            <div className="bg-gray-700 rounded-xl p-6 shadow-lg mt-auto">
+            <div className="mt-auto">
+              <AudioPlayer
+                audioUrl={`./audio/${selectedAudio}/9_Practice_Intro.mp3`}
+              />
+            </div>
+
+            <div className="bg-gray-700 rounded-xl p-6 shadow-lg">
               <h3 className="text-indigo-400 font-semibold mb-3">Remember:</h3>
               <p className="text-gray-300">
                 The Pythagorean Theorem states that in a right triangle:
@@ -308,11 +315,11 @@ export default function PythagorasExercise() {
           src={`./audio/${selectedAudio}/11_PracticeInCorrect.mp3`}
           className="hidden"
         />
-        <audio
+        {/* <audio
           ref={introAudio}
           src={`./audio/${selectedAudio}/9_Practice_Intro.mp3`}
           className="hidden"
-        />
+        /> */}
       </div>
     </div>
   );

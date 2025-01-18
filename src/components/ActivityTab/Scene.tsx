@@ -1,5 +1,5 @@
 import { Html } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 interface SceneProps {
@@ -7,7 +7,11 @@ interface SceneProps {
   sideB: number;
 }
 function Scene({ sideA, sideB }: SceneProps) {
+  const [isFrontVisible, setIsFrontVisible] = useState(true);
+  const [isBackVisible, setIsBackVisible] = useState(false);
   const groupRef = useRef<THREE.Group>(null);
+  const { camera } = useThree();
+
   const [isFirstVisit, setIsFirstVisit] = useState(true);
 
   const arrowRef = useRef<THREE.Group | null>(null);
@@ -132,9 +136,42 @@ function Scene({ sideA, sideB }: SceneProps) {
       arrowRef.current.position.x = sideB + 1 + Math.sin(time) * 0.5; // Move back and forth with amplitude of 1.5
       arrowRef.current.position.z = Math.sin(time) * 1.5; // Move back and forth with amplitude of 1.5
     }
+    if (groupRef.current) {
+      const objectPosition = groupRef.current.position;
+      const objectFront = new THREE.Vector3(0, 0, 1); // Front vector in local space (Z-axis)
+      const cameraDirection = new THREE.Vector3();
+      const objectToCamera = new THREE.Vector3().subVectors(
+        camera.position,
+        objectPosition
+      ); // Vector from object to camera
+
+      // Get the camera's direction in world space
+      camera.getWorldDirection(cameraDirection);
+
+      // Rotate the object’s front vector to world space
+      const rotatedFront = objectFront
+        .clone()
+        .applyMatrix4(groupRef.current.matrixWorld);
+
+      // Compute dot product between the camera's direction and the rotated front vector of the object
+      const dotProduct = rotatedFront.dot(cameraDirection);
+
+      console.log(dotProduct); // This value tells us how aligned the object is with the camera
+
+      // Adjusted threshold to handle front/back visibility more effectively
+      const threshold = 0; // Only show the front if the dot product is significantly positive (camera is looking at the front)
+
+      if (dotProduct > threshold) {
+        setIsFrontVisible(false);
+        setIsBackVisible(true);
+      } else {
+        setIsFrontVisible(true);
+        setIsBackVisible(false);
+      }
+    }
   });
   const handleUserInteraction = () => {
-    setIsFirstVisit(false); // Hide the arrow when the user interacts
+    setIsFirstVisit(false);
   };
   return (
     <group
@@ -174,31 +211,76 @@ function Scene({ sideA, sideB }: SceneProps) {
         geometry={cubeAGeometry}
         material={cubeAMaterial}
       >
-        <Html position={[sideA * 0.4, 0, 0]} transform>
-          <div
-            style={{
-              color: "#ffffff",
-              fontSize: `${textSizeA}px`,
-              fontWeight: "bold",
-              textAlign: "center",
-            }}
-          >
-            A
-          </div>
-        </Html>
-        {/* Area text */}
-        <Html position={[0, 0, 0]} transform>
-          <div
-            style={{
-              color: "#ffffff",
-              fontSize: `${textSizeA}px`,
-              textAlign: "center",
-              width: "400px",
-            }}
-          >
-            Area = {(sideA ** 2).toFixed(2)}
-          </div>
-        </Html>
+        {isFrontVisible && (
+          <>
+            <Html position={[sideA * 0.4, 0, 0]} transform>
+              <div
+                className="high-quality-text"
+                style={{
+                  color: "#ffffff",
+                  fontSize: `${textSizeA}px`,
+                  fontWeight: "bold",
+                  textAlign: "center",
+                }}
+              >
+                A
+              </div>
+            </Html>
+            <Html position={[0, 0, 0]} transform>
+              <div
+                className="high-quality-text"
+                style={{
+                  color: "#ffffff",
+                  fontSize: `${textSizeA}px`,
+                  textAlign: "center",
+                  width: "400px",
+                }}
+              >
+                Area = {(sideA ** 2).toFixed(2)}
+              </div>
+            </Html>
+          </>
+        )}
+
+        {/* Back-facing Text for A */}
+        {isBackVisible && (
+          <>
+            <Html
+              position={[sideA * 0.4, 0, 0]}
+              transform
+              rotation={new THREE.Euler(0, Math.PI, 0)}
+            >
+              <div
+                className="high-quality-text"
+                style={{
+                  color: "#ffffff",
+                  fontSize: `${textSizeA}px`,
+                  fontWeight: "bold",
+                  textAlign: "center",
+                }}
+              >
+                A
+              </div>
+            </Html>
+            <Html
+              position={[0, 0, 0]}
+              transform
+              rotation={new THREE.Euler(0, Math.PI, 0)}
+            >
+              <div
+                className="high-quality-text"
+                style={{
+                  color: "#ffffff",
+                  fontSize: `${textSizeA}px`,
+                  textAlign: "center",
+                  width: "400px",
+                }}
+              >
+                Area = {(sideA ** 2).toFixed(2)}
+              </div>
+            </Html>
+          </>
+        )}
       </mesh>
       <lineSegments
         position={[-sideA / 2, sideA / 2, 0]}
@@ -215,33 +297,78 @@ function Scene({ sideA, sideB }: SceneProps) {
         geometry={cubeBGeometry}
         material={cubeBMaterial}
       >
-        {/* Text for B at the edge */}
-        <Html position={[0, sideB * 0.37, 0]} transform>
-          <div
-            style={{
-              color: "#ffffff",
-              fontSize: `${textSizeB}px`, // Responsive font size
-              fontWeight: "bold",
-              zIndex: "-1",
-            }}
-          >
-            B
-          </div>
-        </Html>
-        {/* Area text */}
-        <Html position={[0, 0, 0]} transform>
-          <div
-            style={{
-              color: "#ffffff",
-              fontSize: `${textSizeB}px`,
-              textAlign: "center",
-              width: "400px",
-              zIndex: "-1",
-            }}
-          >
-            Area = {(sideB ** 2).toFixed(2)}
-          </div>
-        </Html>
+        {isFrontVisible && (
+          <>
+            <Html position={[0, sideB * 0.37, 0]} transform>
+              <div
+                className="high-quality-text"
+                style={{
+                  color: "#ffffff",
+                  fontSize: `${textSizeB}px`,
+                  fontWeight: "bold",
+                  zIndex: "-1",
+                }}
+              >
+                B
+              </div>
+            </Html>
+            <Html position={[0, 0, 0]} transform>
+              <div
+                className="high-quality-text"
+                style={{
+                  color: "#ffffff",
+                  fontSize: `${textSizeB}px`,
+                  textAlign: "center",
+                  width: "400px",
+                  zIndex: "-1",
+                }}
+              >
+                Area = {(sideB ** 2).toFixed(2)}
+              </div>
+            </Html>
+          </>
+        )}
+
+        {/* Back-facing Text for B */}
+        {isBackVisible && (
+          <>
+            <Html
+              position={[0, sideB * 0.37, 0]}
+              transform
+              rotation={new THREE.Euler(0, Math.PI, 0)}
+            >
+              <div
+                className="high-quality-text"
+                style={{
+                  color: "#ffffff",
+                  fontSize: `${textSizeB}px`,
+                  fontWeight: "bold",
+                  zIndex: "-1",
+                }}
+              >
+                B
+              </div>
+            </Html>
+            <Html
+              position={[0, 0, 0]}
+              transform
+              rotation={new THREE.Euler(0, Math.PI, 0)}
+            >
+              <div
+                className="high-quality-text"
+                style={{
+                  color: "#ffffff",
+                  fontSize: `${textSizeB}px`,
+                  textAlign: "center",
+                  width: "400px",
+                  zIndex: "-1",
+                }}
+              >
+                Area = {(sideB ** 2).toFixed(2)}
+              </div>
+            </Html>
+          </>
+        )}
       </mesh>
       <lineSegments
         position={[sideB / 2, -sideB / 2, 0]}
@@ -254,57 +381,108 @@ function Scene({ sideA, sideB }: SceneProps) {
         0.05
       )}{" "}
       <group position={[0, sideA, 0]} rotation={[0, 0, -angle]}>
-        {" "}
         <mesh
           position={[sideLength / 2, sideLength / 2, 0.7]}
           geometry={cubeCGeometry}
           material={cubeCMaterial}
         >
-          <Html
-            position={[0, -(sideLength * 0.4), 0]}
-            transform
-            rotation={new THREE.Euler(0, 0, angle)}
-          >
-            <div
-              style={{
-                color: "#ffffff",
-                fontSize: `${textSizeC}px`,
-                fontWeight: "bold",
-                transform: `rotate(${angle}deg)`,
-              }}
-            >
-              C
-            </div>
-          </Html>
-          {/* Area text */}
-          <Html
-            position={[0, 0, 0]}
-            transform
-            rotation={new THREE.Euler(0, 0, angle)}
-          >
-            <div
-              style={{
-                color: "#ffffff",
-                fontSize: `${textSizeC}px`,
-                textAlign: "center",
-                width: "400px",
-              }}
-            >
-              Area = {(hypotenuse ** 2).toFixed(2)}
-            </div>
-          </Html>
+          {/* Front-facing Text for C */}
+          {isFrontVisible && (
+            <>
+              <Html
+                position={[0, -(sideLength * 0.4), 0]} // Adjust the position for the front-facing text
+                transform
+                rotation={new THREE.Euler(0, 0, angle)} // Correct rotation for front-facing text
+              >
+                <div
+                  className="high-quality-text"
+                  style={{
+                    color: "#ffffff",
+                    fontSize: `${textSizeC}px`,
+                    fontWeight: "bold",
+                    transform: `rotate(${angle}deg)`, // Ensure proper angle for front-facing text
+                  }}
+                >
+                  C
+                </div>
+              </Html>
+              {/* Area text for C */}
+              <Html
+                position={[0, 0, 0]} // Adjust position for area text
+                transform
+                rotation={new THREE.Euler(0, 0, angle)} // Rotation for front-facing text
+              >
+                <div
+                  className="high-quality-text"
+                  style={{
+                    color: "#ffffff",
+                    fontSize: `${textSizeC}px`,
+                    textAlign: "center",
+                    width: "400px",
+                  }}
+                >
+                  Area = {(hypotenuse ** 2).toFixed(2)}
+                </div>
+              </Html>
+            </>
+          )}
+
+          {/* Back-facing Text for C */}
+          {isBackVisible && (
+            <>
+              <Html
+                position={[0, -(sideLength * 0.4), 0]} // Same position as front-facing
+                transform
+                rotation={new THREE.Euler(0, Math.PI, -angle)} // 180-degree flip for back-facing
+              >
+                <div
+                  className="high-quality-text"
+                  style={{
+                    color: "#ffffff",
+                    fontSize: `${textSizeC}px`,
+                    fontWeight: "bold",
+                    transform: `rotate(${angle}deg)`, // Ensure proper angle for back-facing text
+                  }}
+                >
+                  C
+                </div>
+              </Html>
+              {/* Area text for C */}
+              <Html
+                position={[0, 0, 0]} // Adjust position for area text
+                transform
+                rotation={new THREE.Euler(0, Math.PI, -angle)} // 180-degree rotation for back-facing text
+              >
+                <div
+                  className="high-quality-text"
+                  style={{
+                    color: "#ffffff",
+                    fontSize: `${textSizeC}px`,
+                    textAlign: "center",
+                    width: "400px",
+                  }}
+                >
+                  Area = {(hypotenuse ** 2).toFixed(2)}
+                </div>
+              </Html>
+            </>
+          )}
         </mesh>
+
+        {/* Cube edge for C */}
         <lineSegments
           position={[sideLength / 2, sideLength / 2, 0]}
           geometry={cubeCEdge}
           material={lineMaterial}
-        />{" "}
+        />
+
+        {/* Glow effect for C */}
         {createGlowCylinders(
           new THREE.Vector3(0, 0, 0.75),
           new THREE.Vector3(sideLength, 0, 0.75),
           0.05
-        )}{" "}
-      </group>{" "}
+        )}
+      </group>
     </group>
   );
 }

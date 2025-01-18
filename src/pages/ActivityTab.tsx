@@ -4,6 +4,7 @@ import { OrbitControls } from "@react-three/drei";
 import { Info, MoveDownIcon, RotateCcw } from "lucide-react";
 import Scene from "../components/ActivityTab/Scene";
 import { useAudioContext } from "../context/AudioContext";
+import AudioPlayer from "../components/AudioPlayer";
 
 function ActivityTab() {
   const [sideA, setSideA] = useState(3);
@@ -30,11 +31,11 @@ function ActivityTab() {
         className="bg-gray-800 p-6 z-10 w-full md:w-[500px] md:overflow-y-auto 
                     flex flex-col justify-between transition-all duration-300"
       >
-        <div className="flex flex-col h-full space-y-6">
+        <div className="flex flex-col h-full space-y-4">
           {/* Header */}
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex justify-between items-center mb-2">
             <h1 className="text-2xl md:text-3xl font-bold text-white">
-              3D Pythagorean Theorem
+              Activity
             </h1>
           </div>
 
@@ -179,15 +180,17 @@ function ActivityTab() {
             <RotateCcw className="w-4 h-4" />
             Reset Values
           </button>
+
+          <AudioPlayer audioUrl={`./audio/${selectedAudio}/5_Activity.mp3`} />
         </div>
       </div>
 
       {/* Audio Player */}
-      <audio
+      {/* <audio
         src={`./audio/${selectedAudio}/5_Activity.mp3`}
         className="hidden"
         autoPlay
-      />
+      /> */}
     </div>
   );
 }

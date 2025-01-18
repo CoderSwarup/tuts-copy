@@ -2,6 +2,7 @@ import { Info, RotateCcw, CheckCircle2, AlertCircle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { LadderProblemScene } from "../components/TEST/LadderProblemScene";
 import { useAudioContext } from "../context/AudioContext";
+import AudioPlayer from "../components/AudioPlayer";
 
 export default function LadderProblemPage() {
   const [sliderValue, setSliderValue] = useState(2);
@@ -74,7 +75,7 @@ export default function LadderProblemPage() {
       <div className="relative flex-1 p-2 min-h-[90vh]  lg:min-h-screen bg-gray-800 lg:rounded-2xl shadow-2xl ">
         <div className="  p-2 h-full relative overflow-hidden">
           <h1 className="text-white text-center  mt-5 md:mt-0  text-2xl md:text-4xl font-bold tracking-tight mb-12 relative z-10">
-            Ladder Safety Problem
+            Ladder Problem
           </h1>
 
           {/* Adjust canvas size for mobile */}
@@ -122,8 +123,8 @@ export default function LadderProblemPage() {
       </div>
 
       {/* Sidebar - Right Side */}
-      <div className="w-full lg:w-[400px] bg-gray-800 p-6 flex flex-col max-h-screen overflow-y-scroll">
-        <h2 className="text-2xl font-bold text-white mb-4">Problem</h2>
+      <div className="w-full lg:w-[400px] bg-gray-800 p-6 flex flex-col gap-3 max-h-screen overflow-y-scroll">
+        <h2 className="text-2xl font-bold text-white mb-1">Problem</h2>
         <div className="bg-gray-700/50 rounded-xl p-6 mb-6">
           <p className="text-gray-300 leading-relaxed">
             A ladder is 5 metres long and needs to reach a height of 4 metres on
@@ -157,16 +158,18 @@ export default function LadderProblemPage() {
           </p>
         </div>
 
+        <AudioPlayer audioUrl={`./audio/${selectedAudio}/12_Ladder.mp3`} />
+
         <audio
           ref={wrongAudioRef}
           src={`./audio/${selectedAudio}/13_Ladder_In_Correct.mp3`}
           className="hidden"
         />
-        <audio
+        {/* <audio
           ref={introAudio}
           src={`./audio/${selectedAudio}/12_Ladder.mp3`}
           className="hidden"
-        />
+        /> */}
       </div>
     </div>
   );

@@ -147,3 +147,11 @@ body {
 .animate-arrow-c {
   animation: arrow-slide-c 1s ease-out 0.5s infinite; /* Delay */
 }
+
+.high-quality-text {
+  text-rendering: optimizeLegibility; /* This improves the legibility of text */
+  font-smoothing: antialiased; /* This helps on macOS devices */
+  -webkit-font-smoothing: antialiased; /* This helps on macOS devices */
+  -moz-osx-font-smoothing: grayscale; /* This helps on macOS devices */
+  color: rgb(255, 255, 255);
+}
