@@ -22,7 +22,7 @@ function ActivityTab() {
           className="h-[60vh] md:h-full w-full"
         >
           <Scene sideA={sideA} sideB={sideB} />
-          <OrbitControls enableDamping dampingFactor={0.05} />
+          <OrbitControls enableDamping dampingFactor={0.05} enablePan={false} />
         </Canvas>
       </div>
 

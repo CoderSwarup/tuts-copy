@@ -157,25 +157,25 @@ export default function PythagorasExercise() {
                 x="200"
                 y="330"
                 textAnchor="middle"
-                className="text-xl fill-white"
+                className="text-md fill-white"
               >
-                {questions[currentQuestionIndex].sides[0] ?? "?"}
+                {questions[currentQuestionIndex].sides[0] ?? "?"} units
               </text>
               <text
-                x="320"
+                x="330"
                 y="200"
                 textAnchor="middle"
-                className="text-xl fill-white"
+                className="text-md fill-white"
               >
-                {questions[currentQuestionIndex].sides[1] ?? "?"}
+                {questions[currentQuestionIndex].sides[1] ?? "?"} units
               </text>
               <text
                 x="180"
                 y="180"
                 textAnchor="middle"
-                className="text-xl fill-white"
+                className="text-md fill-white"
               >
-                {questions[currentQuestionIndex].sides[2] ?? "?"}
+                {questions[currentQuestionIndex].sides[2] ?? "?"} units
               </text>
 
               {/* Glow or Blink Effect for Unknown Side */}
@@ -298,7 +298,7 @@ export default function PythagorasExercise() {
               </p>
               <p className="text-white font-semibold mt-2">a² + b² = c²</p>
               <p className="text-gray-300 mt-2">
-                where c is the hypotenuse (longest side)
+                Where c is the hypotenuse (longest side)
               </p>
             </div>
           </>

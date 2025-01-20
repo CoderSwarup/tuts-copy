@@ -26,9 +26,9 @@ function Scene({ sideA, sideB }: SceneProps) {
 
   useEffect(() => {
     const adjustTextSize = () => {
-      setTextSizeA(sideA < 2 ? 5 : sideA * 3);
-      setTextSizeB(sideB < 2 ? 5 : sideB * 3);
-      setTextSizeC(sideLength < 2 ? 5 : sideLength * 3);
+      setTextSizeA(sideA < 2 ? 3 : sideA * 3);
+      setTextSizeB(sideB < 2 ? 4 : sideB * 3);
+      setTextSizeC(sideLength < 2 ? 4 : sideLength * 3);
     };
 
     adjustTextSize();
@@ -159,7 +159,12 @@ function Scene({ sideA, sideB }: SceneProps) {
       console.log(dotProduct); // This value tells us how aligned the object is with the camera
 
       // Adjusted threshold to handle front/back visibility more effectively
-      const threshold = 0; // Only show the front if the dot product is significantly positive (camera is looking at the front)
+      const threshold = 0;
+
+      // Is Move
+      if (isFirstVisit && dotProduct !== -1) {
+        setIsFirstVisit(false);
+      }
 
       if (dotProduct > threshold) {
         setIsFrontVisible(false);
@@ -226,7 +231,7 @@ function Scene({ sideA, sideB }: SceneProps) {
                 A
               </div>
             </Html>
-            <Html position={[0, 0, 0]} transform>
+            <Html position={[-0.1, 0, 0]} transform>
               <div
                 className="high-quality-text"
                 style={{
@@ -236,7 +241,7 @@ function Scene({ sideA, sideB }: SceneProps) {
                   width: "400px",
                 }}
               >
-                Area = {(sideA ** 2).toFixed(2)}
+                Area = {(sideA ** 2).toFixed(2)} Sq units
               </div>
             </Html>
           </>
@@ -263,7 +268,7 @@ function Scene({ sideA, sideB }: SceneProps) {
               </div>
             </Html>
             <Html
-              position={[0, 0, 0]}
+              position={[sideA < 2 ? -0.1 : -0.2, 0, 0]}
               transform
               rotation={new THREE.Euler(0, Math.PI, 0)}
             >
@@ -276,7 +281,7 @@ function Scene({ sideA, sideB }: SceneProps) {
                   width: "400px",
                 }}
               >
-                Area = {(sideA ** 2).toFixed(2)}
+                Area = {(sideA ** 2).toFixed(2)} Sq units
               </div>
             </Html>
           </>
@@ -323,7 +328,7 @@ function Scene({ sideA, sideB }: SceneProps) {
                   zIndex: "-1",
                 }}
               >
-                Area = {(sideB ** 2).toFixed(2)}
+                Area = {(sideB ** 2).toFixed(2)} Sq units
               </div>
             </Html>
           </>
@@ -364,7 +369,7 @@ function Scene({ sideA, sideB }: SceneProps) {
                   zIndex: "-1",
                 }}
               >
-                Area = {(sideB ** 2).toFixed(2)}
+                Area = {(sideB ** 2).toFixed(2)} Sq units
               </div>
             </Html>
           </>
@@ -408,7 +413,7 @@ function Scene({ sideA, sideB }: SceneProps) {
               </Html>
               {/* Area text for C */}
               <Html
-                position={[0, 0, 0]} // Adjust position for area text
+                position={[0, hypotenuse < 2 ? 0 : 0.2, 0]} // Adjust position for area text
                 transform
                 rotation={new THREE.Euler(0, 0, angle)} // Rotation for front-facing text
               >
@@ -421,7 +426,7 @@ function Scene({ sideA, sideB }: SceneProps) {
                     width: "400px",
                   }}
                 >
-                  Area = {(hypotenuse ** 2).toFixed(2)}
+                  Area = {(hypotenuse ** 2).toFixed(2)} Sq units
                 </div>
               </Html>
             </>
@@ -449,7 +454,7 @@ function Scene({ sideA, sideB }: SceneProps) {
               </Html>
               {/* Area text for C */}
               <Html
-                position={[0, 0, 0]} // Adjust position for area text
+                position={[0, hypotenuse < 2 ? 0 : 0.2, 0]} // Adjust position for area text
                 transform
                 rotation={new THREE.Euler(0, Math.PI, -angle)} // 180-degree rotation for back-facing text
               >
@@ -462,7 +467,7 @@ function Scene({ sideA, sideB }: SceneProps) {
                     width: "400px",
                   }}
                 >
-                  Area = {(hypotenuse ** 2).toFixed(2)}
+                  Area = {(hypotenuse ** 2).toFixed(2)} Sq units
                 </div>
               </Html>
             </>

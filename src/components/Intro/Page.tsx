@@ -229,14 +229,16 @@ export default function Page() {
               {currentSlide >= 0 && (
                 <>
                   <text
-                    x="50%"
+                    x="55%"
                     y="98%"
                     textAnchor="middle"
                     dominantBaseline="middle"
                     fontSize="2rem"
                     fill="white"
                     className="animate-fade-in cursor-pointer"
-                    onMouseEnter={() => setHoveredSide("b")}
+                    onMouseEnter={() => {
+                      setHoveredSide("b"), SetHoverTrue();
+                    }}
                     onMouseLeave={() => setHoveredSide("")}
                   >
                     {currentSlide >= 1 && hoveredSide === "b"
@@ -251,7 +253,9 @@ export default function Page() {
                     fontSize="2rem"
                     fill="white"
                     className="animate-fade-in cursor-pointer"
-                    onMouseEnter={() => setHoveredSide("a")}
+                    onMouseEnter={() => {
+                      setHoveredSide("a"), SetHoverTrue();
+                    }}
                     onMouseLeave={() => setHoveredSide("")}
                   >
                     {currentSlide >= 1 && hoveredSide === "a"
@@ -271,7 +275,9 @@ export default function Page() {
                     fontSize="2rem"
                     fill="white"
                     className="animate-fade-in cursor-pointer"
-                    onMouseEnter={() => setHoveredSide("c")}
+                    onMouseEnter={() => {
+                      setHoveredSide("c"), SetHoverTrue();
+                    }}
                     onMouseLeave={() => setHoveredSide("")}
                   >
                     {currentSlide >= 1 && hoveredSide === "c"
@@ -515,7 +521,9 @@ export default function Page() {
 
           {currentSlide === 1 && (
             <div className="absolute bottom-1 right-3 bg-gray-900 text-gray-400 p-4 rounded-lg">
-              <p className="text-sm">Sum of angles equals 180&deg;</p>
+              <p className="text-sm">
+                The sum of all the angles of triangle equals to 180&deg;
+              </p>
             </div>
           )}
         </div>
